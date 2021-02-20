@@ -60,9 +60,6 @@ namespace AfterEffects
             this.TitlePBox = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Run = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.button3 = new System.Windows.Forms.Button();
             this.lblTest = new System.Windows.Forms.Label();
@@ -71,6 +68,7 @@ namespace AfterEffects
             this.button5 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button6 = new System.Windows.Forms.Button();
+            this.JobsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.jobIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.titleTextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subjectTextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -78,7 +76,8 @@ namespace AfterEffects
             this.filenameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.outputFolderDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.hebrewDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.JobsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TEST = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SubjectBackgroundPBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SubjectPBox)).BeginInit();
@@ -364,6 +363,7 @@ namespace AfterEffects
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -374,9 +374,8 @@ namespace AfterEffects
             this.filenameDataGridViewTextBoxColumn,
             this.outputFolderDataGridViewTextBoxColumn,
             this.hebrewDataGridViewCheckBoxColumn,
-            this.Delete,
-            this.Run,
-            this.Status});
+            this.Status,
+            this.TEST});
             this.dataGridView1.DataSource = this.JobsBindingSource;
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
             this.dataGridView1.Location = new System.Drawing.Point(12, 257);
@@ -386,27 +385,6 @@ namespace AfterEffects
             this.dataGridView1.Size = new System.Drawing.Size(863, 150);
             this.dataGridView1.TabIndex = 43;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // Delete
-            // 
-            this.Delete.HeaderText = "Delete";
-            this.Delete.Name = "Delete";
-            this.Delete.Text = "Delete";
-            this.Delete.UseColumnTextForButtonValue = true;
-            this.Delete.Width = 50;
-            // 
-            // Run
-            // 
-            this.Run.HeaderText = "Run";
-            this.Run.Name = "Run";
-            this.Run.Text = "Run";
-            this.Run.UseColumnTextForButtonValue = true;
-            this.Run.Width = 50;
-            // 
-            // Status
-            // 
-            this.Status.HeaderText = "Status";
-            this.Status.Name = "Status";
             // 
             // colorDialog1
             // 
@@ -474,6 +452,10 @@ namespace AfterEffects
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // JobsBindingSource
+            // 
+            this.JobsBindingSource.DataSource = typeof(AfterEffects.Job);
+            // 
             // jobIDDataGridViewTextBoxColumn
             // 
             this.jobIDDataGridViewTextBoxColumn.DataPropertyName = "JobID";
@@ -520,9 +502,16 @@ namespace AfterEffects
             this.hebrewDataGridViewCheckBoxColumn.Name = "hebrewDataGridViewCheckBoxColumn";
             this.hebrewDataGridViewCheckBoxColumn.Width = 60;
             // 
-            // JobsBindingSource
+            // Status
             // 
-            this.JobsBindingSource.DataSource = typeof(AfterEffects.Job);
+            this.Status.HeaderText = "Status";
+            this.Status.Name = "Status";
+            // 
+            // TEST
+            // 
+            this.TEST.HeaderText = "TEST";
+            this.TEST.Name = "TEST";
+            this.TEST.ToolTipText = "TEST";
             // 
             // Form2
             // 
@@ -612,16 +601,6 @@ namespace AfterEffects
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.BindingSource JobsBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn jobIDDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn titleTextDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn subjectTextDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn formatDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn filenameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn outputFolderDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn hebrewDataGridViewCheckBoxColumn;
-        private System.Windows.Forms.DataGridViewButtonColumn Delete;
-        private System.Windows.Forms.DataGridViewButtonColumn Run;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label lblTest;
         private System.Windows.Forms.Button button4;
@@ -629,5 +608,14 @@ namespace AfterEffects
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn jobIDDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn titleTextDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn subjectTextDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn formatDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn filenameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn outputFolderDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn hebrewDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TEST;
     }
 }

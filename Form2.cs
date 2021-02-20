@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Sheets.v4;
@@ -21,6 +22,11 @@ namespace AfterEffects
 {
     public partial class Form2 : Form
     {
+        Dictionary<int, Dictionary<string, List<string>>> topDict = new Dictionary<int, Dictionary<string, List<string>>>();
+        Dictionary<string, List<string>> lowDict = new Dictionary<string, List<string>>();
+        List<string> list = new List<string>();
+        int slide = 1;
+
         // START
         #region Initilize Parameters
         const string WorkingFolder = @"D:\Projects\Automation\";
@@ -34,7 +40,7 @@ namespace AfterEffects
         static readonly string[] Scopes = { SheetsService.Scope.Spreadsheets };
         static readonly string ApplicationName = "Application Name";
         static readonly string SpreadSheetId = "1a6wnlb70JjpRli9WzUOoSVTndqusqwFHqTb9Qvx5n1M";
-        static readonly string Sheet = "Titles";
+        static readonly string Sheet = "Roller";
         static SheetsService service;
         #endregion
 
@@ -115,15 +121,31 @@ namespace AfterEffects
         }
         private void Form2_Load(object sender, EventArgs e)
         {
-            AddToQueue();
+            //AddToQueue();
         }
         private async void button1_Click(object sender, EventArgs e)
         {
-            AddToQueue();
+            await AddToQueue();
+
+            //DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
+            //btn.HeaderText = "Buttons";
+            //btn.Name = "TestButton";
+            //btn.Text = "Click Me";
+            //btn.UseColumnTextForButtonValue = true;
+
+            //dataGridView1.Columns.Add(btn);
+
+
+
+
+            //DataGridViewButtonCell btn2 = new DataGridViewButtonCell();
+            ////btn2.UseColumnTextForButtonValue = true;
+            //dataGridView1.Rows[0].Cells[8] = (btn2);
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            ReadEntries();
+            //ReadEntries();
+            ReadEntries_Roller();
         }
         private async void button3_Click(object sender, EventArgs e)
         {
@@ -161,12 +183,35 @@ namespace AfterEffects
         }
         private void button6_Click(object sender, EventArgs e)
         {
+            //Dictionary<int, List<string>> topDict = new Dictionary<int, List<string>>();
+
+            //List<string> list = new List<string>();
+
+            //List<string> existing;
+            //if (!topDict.TryGetValue(key, out existing))
+            //{
+            //    existing = new List<string>();
+            //    myDic[key] = existing;
+            //}
+            //// At this point we know that "existing" refers to the relevant list in the 
+            //// dictionary, one way or another.
+            //existing.Add(extraValue);
+
             var x = HebrewStringCheck(textBox1.Text);
             textBox1.Text = x;
         }
+        void ClearForm()
+        {
+            txt_Title.Clear();
+            txt_Subject.Clear();
+            txt_Filename.Clear();
+            chk_Hebrew.Checked = false;
+
+            txt_Title.Focus();
+        }
 
         #region Add to Queue
-        private void AddToQueue()
+        private async Task AddToQueue()
         {
             if ((txt_Title.Text.Length <= 0) || (txt_Subject.Text.Length <= 0) || (txt_Filename.Text.Length <= 0) || (txt_Output.Text.Length <= 0))
             {
@@ -342,18 +387,7 @@ namespace AfterEffects
         }
         #endregion
 
-        void ClearForm()
-        {
-            txt_Title.Clear();
-            txt_Subject.Clear();
-            txt_Filename.Clear();
-            chk_Hebrew.Checked = false;
-
-            txt_Title.Focus();
-        }
-
-       
-
+        #region Datagrid Functions
         private async void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Delete")
@@ -389,11 +423,20 @@ namespace AfterEffects
                     JobsBindingSource.RemoveCurrent();
                 }
             }
+            else if (dataGridView1.Columns[e.ColumnIndex].Name == "TestButton")
+            {
+                //dataGridView1.Columns[e.ColumnIndex].Visible = false;
+                
+                MessageBox.Show("Clicked");
+            }
         }
 
+        #endregion
+
+        #region Google Spreadsheet's
         void ReadEntries()
         {
-            var range = $"{Sheet}!A2:F10";
+            var range = $"Titles!A2:F80";
             var request = service.Spreadsheets.Values.Get(SpreadSheetId, range);
 
             var response = request.Execute();
@@ -420,6 +463,78 @@ namespace AfterEffects
             }
 
         }
+
+        void ReadEntries_Roller()
+        {
+            var range = $"Roller!A2:F80";
+            var request = service.Spreadsheets.Values.Get(SpreadSheetId, range);
+
+            var response = request.Execute();
+
+            var values = response.Values;
+
+            if (values != null && values.Count > 0)
+            {
+                int rowCheck = 0;
+
+                foreach (var row in values)
+                {
+                    //MessageBox.Show("Row Count: " + row.Count.ToString());
+                    
+                    for (int i = 0; i < row.Count; i++)
+                    {
+                        try
+                        {
+                            var cellValue = row[i];
+
+                            try
+                            {
+                                var cellNumber = Convert.ToInt32(cellValue);
+                                rowCheck = 0;
+                                MessageBox.Show("Number: " + cellNumber.ToString());
+                            }
+                            catch (Exception)
+                            {
+                                rowCheck += 1;
+                                var cellString = cellValue.ToString();
+
+                                if (rowCheck == 1)
+                                {
+                                    MessageBox.Show("Title: " + cellString.ToString());
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Name: " + cellString.ToString());
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            MessageBox.Show("Empty Cell");
+                        }
+                    }
+
+                    
+                   
+
+                    //string title = row[0].ToString();
+                    //string subject = row[1].ToString();
+                    //string format = row[2].ToString();
+                    //string filename = row[3].ToString();
+                    //string outputFolder = row[4].ToString();
+                    //bool hebrew = Convert.ToBoolean(row[5]);
+
+                    //AddToQueue(title, subject, format, filename, outputFolder, hebrew);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No Data was found");
+            }
+
+        }
+
+        #endregion
 
         #region Render Commands
         private async Task RenderAll()
@@ -461,6 +576,8 @@ namespace AfterEffects
 
             dataGridView1.Rows[_index].DefaultCellStyle.ForeColor = Color.LightGray;
             dataGridView1.Rows[_index].Cells[9].Value = "Finished";
+            
+            // Add disable buttons functions here
         }
 
         private void RenderFiles(string _title, string _subject, string _fileName, string _format, string _outpFolder, bool hebrew)
@@ -567,4 +684,107 @@ namespace AfterEffects
         #endregion
 
     }
+
+
+
+    public class DataGridViewDisableButtonColumn : DataGridViewButtonColumn
+    {
+        public DataGridViewDisableButtonColumn()
+        {
+            this.CellTemplate = new DataGridViewDisableButtonCell();
+        }
+    }
+    public class DataGridViewDisableButtonCell : DataGridViewButtonCell
+    {
+        private bool enabledValue;
+        public bool Enabled
+        {
+            get
+            {
+                return enabledValue;
+            }
+            set
+            {
+                enabledValue = value;
+            }
+        }
+
+        // Override the Clone method so that the Enabled property is copied.
+        public override object Clone()
+        {
+            DataGridViewDisableButtonCell cell =
+                (DataGridViewDisableButtonCell)base.Clone();
+            cell.Enabled = this.Enabled;
+            return cell;
+        }
+
+        // By default, enable the button cell.
+        public DataGridViewDisableButtonCell()
+        {
+            this.enabledValue = true;
+        }
+
+        protected override void Paint(Graphics graphics,
+            Rectangle clipBounds, Rectangle cellBounds, int rowIndex,
+            DataGridViewElementStates elementState, object value,
+            object formattedValue, string errorText,
+            DataGridViewCellStyle cellStyle,
+            DataGridViewAdvancedBorderStyle advancedBorderStyle,
+            DataGridViewPaintParts paintParts)
+        {
+            // The button cell is disabled, so paint the border,
+            // background, and disabled button for the cell.
+            if (!this.enabledValue)
+            {
+                // Draw the cell background, if specified.
+                if ((paintParts & DataGridViewPaintParts.Background) ==
+                    DataGridViewPaintParts.Background)
+                {
+                    SolidBrush cellBackground =
+                        new SolidBrush(cellStyle.BackColor);
+                    graphics.FillRectangle(cellBackground, cellBounds);
+                    cellBackground.Dispose();
+                }
+
+                // Draw the cell borders, if specified.
+                if ((paintParts & DataGridViewPaintParts.Border) ==
+                    DataGridViewPaintParts.Border)
+                {
+                    PaintBorder(graphics, clipBounds, cellBounds, cellStyle,
+                        advancedBorderStyle);
+                }
+
+                // Calculate the area in which to draw the button.
+                Rectangle buttonArea = cellBounds;
+                Rectangle buttonAdjustment =
+                    this.BorderWidths(advancedBorderStyle);
+                buttonArea.X += buttonAdjustment.X;
+                buttonArea.Y += buttonAdjustment.Y;
+                buttonArea.Height -= buttonAdjustment.Height;
+                buttonArea.Width -= buttonAdjustment.Width;
+
+                // Draw the disabled button.
+                ButtonRenderer.DrawButton(graphics, buttonArea,
+                    PushButtonState.Disabled);
+
+                // Draw the disabled button text.
+                if (this.FormattedValue is String)
+                {
+                    TextRenderer.DrawText(graphics,
+                        (string)this.FormattedValue,
+                        this.DataGridView.Font,
+                        buttonArea, SystemColors.GrayText);
+                }
+            }
+            else
+            {
+                // The button cell is enabled, so let the base class
+                // handle the painting.
+                base.Paint(graphics, clipBounds, cellBounds, rowIndex,
+                    elementState, value, formattedValue, errorText,
+                    cellStyle, advancedBorderStyle, paintParts);
+            }
+        }
+    }
+
 }
