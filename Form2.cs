@@ -36,6 +36,7 @@ namespace AfterEffects
         #region Initilize Parameters
         const string WorkingFolder = @"D:\Projects\Automation\";
         readonly string outputJsonFile = $@"{WorkingFolder}\Colors.json";
+        readonly string outputRollerJsonFile = $@"{WorkingFolder}\Roller.json";
         readonly string _ProjectLocation = $@"{WorkingFolder}\AutoV1.aep";
         string _CompName = "Render_ENG"; // Render_HEB
         int jobId = 1;
@@ -128,6 +129,7 @@ namespace AfterEffects
         {
             //AddToQueue();
             ReadEntries_Roller_Test();
+            Read_from_TopDictionary();
         }
         private async void button1_Click(object sender, EventArgs e)
         {
@@ -490,97 +492,23 @@ namespace AfterEffects
 
             if (values != null && values.Count > 0)
             {
-                //int rowCheck = 0;
-                //int cellNumber = 0;
                 foreach (var row in values)
                 {
-                    //int rowIndex = Convert.ToInt32(values.IndexOf(row)) + 1;
                     List<string> tempList = new List<string>();
                     for (int i = 0; i < row.Count; i++)
                     {
                         string cellValue = row[i].ToString();
                         tempList.Add(cellValue);
-                        {
-                            //try
-                            //{
-                            //    cellNumber = Convert.ToInt32(cellValue);
-                            //    cellValue = cellNumber;
-                            //}
-                            //catch (Exception)
-                            //{
-
-                            //}
-
-                            //MessageBox.Show(cellValue.GetType().ToString());
-                            //MessageBox.Show(cellValue.ToString());
-                        }
-                        {
-                            //try
-                            //{
-                            //    //var cellValue = row[i];
-
-                            //    //try
-                            //    //{
-                            //    cellNumber = Convert.ToInt32(cellValue);
-                            //    //    rowCheck = 0;
-                            //    AddToTextBox("Slide: " + cellNumber.ToString());
-                            //    //topDict.Add(cellNumber, null);
-                            //    //}
-                            //    //catch (Exception)
-                            //    //{
-                            //    //    rowCheck += 1;
-                            //    //    var cellString = cellValue.ToString();
-                            //    //    if (rowCheck == 1)
-                            //    //    {
-                            //    //        lowDict.Add("Title", null);
-                            //    //        AddToTextBox("Title: " + cellString.ToString());
-                            //    //    }
-                            //    //    else
-                            //    //    {
-                            //    //        lowDict.Add("Name", null);
-                            //    //        AddToTextBox("Name: " + cellString.ToString());
-                            //    //    }
-                            //    //    //topDict[cellNumber] = lowDict;
-                            //    //}
-                            //}
-                            //catch (Exception)
-                            //{
-                            //    AddToTextBox("Not a Slide Number");
-                            //    rowCheck += 1;
-                            //    var cellString = cellValue.ToString();
-
-                            //    //list.Add(cellString);
-
-                            //    AddToTextBox("Name: " + cellString.ToString());
-
-                            //    //if (rowCheck == 1)
-                            //    //{
-                            //    //    list.Add(cellString.ToString());
-
-                            //    //    lowDict.Add("Title", null);
-                            //    //    AddToTextBox("Title: " + cellString.ToString());
-                            //    //}
-                            //    //else
-                            //    //{
-                            //    //    list.Add(cellString.ToString());
-                            //    //    lowDict.Add("Name", null);
-                            //    //    AddToTextBox("Name: " + cellString.ToString());
-                            //    //}
-
-                            //    //topDict[cellNumber] = lowDict;
-                            //}
-                        }
                     }
                     newList.Add(tempList);
                 }
             }
-
             #endregion
 
+            #region Creating rowList values
             for (int i = 0; i < newList.Count; i++)
             {
                 var itemsCount = newList[i].Count;
-
 
                 if (itemsCount > 0)
                 {
@@ -661,37 +589,9 @@ namespace AfterEffects
                     //}
                 }
             }
+            #endregion
 
             Get_Values_From_Slide();
-            {
-                //foreach (var row in newList)
-                //{
-                //    var itemsCount = row.Count;
-                //    var rowIndex = newList.IndexOf(row);
-
-                //    if (itemsCount > 1)
-                //    {
-
-                //    }
-                //    else if (itemsCount > 0) // When there's only one line
-                //    {
-                //        try
-                //        {
-                //            int slideNumber = Convert.ToInt32(row[0]);
-                //            MessageBox.Show("Slide Number: " + slideNumber.ToString());
-                //        }
-                //        catch (Exception)
-                //        {
-                //            MessageBox.Show("Values: " + row[0]);
-
-                //        }
-                //    }
-
-                //}
-                //var x = topDict[1];
-                //var xKey = topDict[1].Keys;
-                //MessageBox.Show(xKey.ToString());
-            }
         }
         void Get_Values_From_Slide()
         {
@@ -714,7 +614,7 @@ namespace AfterEffects
                         {
                             if (!zDict.ContainsKey(m))
                             {
-                                tempDict.Add(m, new List<string>());
+                                //tempDict.Add(m, new List<string>());
                                 zDict.Add(m, new List<string>());
                             }
                         }
@@ -726,15 +626,15 @@ namespace AfterEffects
                             try
                             {
                                 Convert.ToInt32(z); // SLIDE DETECTED
-                                AddToTextBox($"[{z}]");
+                                //AddToTextBox($"[{z}]");
                             }
                             catch
                             {
                                 if (!string.IsNullOrEmpty(z))
                                 {
                                     zDict[m].Add(z);
-                                    AddToTextBox($"[{m}] {z}");
-                                    AddToTextBox("");
+                                    //AddToTextBox($"[{m}] {z}");
+                                    //AddToTextBox("");
                                 }
                             }
                         }
@@ -742,8 +642,8 @@ namespace AfterEffects
                     }
 
                     topDict.Add(slide, zDict);
-                    AddToTextBox("[End of Slide]");
-                    AddToTextBox("");
+                    //AddToTextBox("[End of Slide]");
+                    //AddToTextBox("");
                     slide += 1;
                     tempDict.Clear();
                 }
@@ -777,7 +677,7 @@ namespace AfterEffects
                                 var cellNumber = Convert.ToInt32(cellValue);
                                 rowCheck = 0;
 
-                                AddToTextBox("Number: " + cellNumber.ToString());
+                                //AddToTextBox("Number: " + cellNumber.ToString());
                                 //textBox2.Text += "Number: " + cellNumber.ToString();
                                 //MessageBox.Show("Number: " + cellNumber.ToString());
                             }
@@ -788,12 +688,12 @@ namespace AfterEffects
                                 //AddToTextBox(cellString.ToString());
                                 if (rowCheck == 1)
                                 {
-                                    AddToTextBox("Title: " + cellString.ToString());
+                                    //AddToTextBox("Title: " + cellString.ToString());
                                     //MessageBox.Show("Title: " + cellString.ToString());
                                 }
                                 else
                                 {
-                                    AddToTextBox("Name: " + cellString.ToString());
+                                    //AddToTextBox("Name: " + cellString.ToString());
                                     //MessageBox.Show("Name: " + cellString.ToString());
                                 }
                             }
@@ -801,7 +701,7 @@ namespace AfterEffects
                         catch (Exception)
                         {
 
-                            AddToTextBox("Empty Cell");
+                            //AddToTextBox("Empty Cell");
                             //MessageBox.Show("Empty Cell");
                         }
                     }
@@ -975,106 +875,32 @@ namespace AfterEffects
         }
         #endregion
 
-    }
-
-
-
-    public class DataGridViewDisableButtonColumn : DataGridViewButtonColumn
-    {
-        public DataGridViewDisableButtonColumn()
+        void Read_from_TopDictionary()
         {
-            this.CellTemplate = new DataGridViewDisableButtonCell();
-        }
-    }
-    public class DataGridViewDisableButtonCell : DataGridViewButtonCell
-    {
-        private bool enabledValue;
-        public bool Enabled
-        {
-            get
+            foreach (KeyValuePair<int, Dictionary<int, List<string>>> slide in topDict)
             {
-                return enabledValue;
-            }
-            set
-            {
-                enabledValue = value;
-            }
-        }
+                AddToTextBox($"[Slide: {slide.Key}]");
+                //MessageBox.Show($"Slide: {slide.Key}");
+                var x = slide.Value;
 
-        // Override the Clone method so that the Enabled property is copied.
-        public override object Clone()
-        {
-            DataGridViewDisableButtonCell cell =
-                (DataGridViewDisableButtonCell)base.Clone();
-            cell.Enabled = this.Enabled;
-            return cell;
-        }
-
-        // By default, enable the button cell.
-        public DataGridViewDisableButtonCell()
-        {
-            this.enabledValue = true;
-        }
-
-        protected override void Paint(Graphics graphics,
-            Rectangle clipBounds, Rectangle cellBounds, int rowIndex,
-            DataGridViewElementStates elementState, object value,
-            object formattedValue, string errorText,
-            DataGridViewCellStyle cellStyle,
-            DataGridViewAdvancedBorderStyle advancedBorderStyle,
-            DataGridViewPaintParts paintParts)
-        {
-            // The button cell is disabled, so paint the border,
-            // background, and disabled button for the cell.
-            if (!this.enabledValue)
-            {
-                // Draw the cell background, if specified.
-                if ((paintParts & DataGridViewPaintParts.Background) ==
-                    DataGridViewPaintParts.Background)
+                foreach (KeyValuePair<int, List<string>> item in x)
                 {
-                    SolidBrush cellBackground =
-                        new SolidBrush(cellStyle.BackColor);
-                    graphics.FillRectangle(cellBackground, cellBounds);
-                    cellBackground.Dispose();
+                    AddToTextBox($"Slot: {item.Key}");
+                    //MessageBox.Show($"Slot: {item.Key}");
+                    foreach (var str in item.Value)
+                    {
+                        var index = item.Value.IndexOf(str);
+                        if (index == 0)
+                        {
+                            AddToTextBox($"Title: {str}");
+                        }
+                        else
+                        {
+                            AddToTextBox($"Name: {str}");
+                        }
+                    }
                 }
-
-                // Draw the cell borders, if specified.
-                if ((paintParts & DataGridViewPaintParts.Border) ==
-                    DataGridViewPaintParts.Border)
-                {
-                    PaintBorder(graphics, clipBounds, cellBounds, cellStyle,
-                        advancedBorderStyle);
-                }
-
-                // Calculate the area in which to draw the button.
-                Rectangle buttonArea = cellBounds;
-                Rectangle buttonAdjustment =
-                    this.BorderWidths(advancedBorderStyle);
-                buttonArea.X += buttonAdjustment.X;
-                buttonArea.Y += buttonAdjustment.Y;
-                buttonArea.Height -= buttonAdjustment.Height;
-                buttonArea.Width -= buttonAdjustment.Width;
-
-                // Draw the disabled button.
-                ButtonRenderer.DrawButton(graphics, buttonArea,
-                    PushButtonState.Disabled);
-
-                // Draw the disabled button text.
-                if (this.FormattedValue is String)
-                {
-                    TextRenderer.DrawText(graphics,
-                        (string)this.FormattedValue,
-                        this.DataGridView.Font,
-                        buttonArea, SystemColors.GrayText);
-                }
-            }
-            else
-            {
-                // The button cell is enabled, so let the base class
-                // handle the painting.
-                base.Paint(graphics, clipBounds, cellBounds, rowIndex,
-                    elementState, value, formattedValue, errorText,
-                    cellStyle, advancedBorderStyle, paintParts);
+                AddToTextBox(string.Empty);
             }
         }
     }
