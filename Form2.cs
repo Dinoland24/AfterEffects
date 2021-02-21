@@ -122,6 +122,7 @@ namespace AfterEffects
         private void Form2_Load(object sender, EventArgs e)
         {
             //AddToQueue();
+            ReadEntries_Roller();
         }
         private async void button1_Click(object sender, EventArgs e)
         {
@@ -334,7 +335,7 @@ namespace AfterEffects
         #endregion
 
         #region Hebrew Manipulation
-        
+
         public static string Reverse(string s)
         {
             char[] charArray = s.ToCharArray();
@@ -426,7 +427,7 @@ namespace AfterEffects
             else if (dataGridView1.Columns[e.ColumnIndex].Name == "TestButton")
             {
                 //dataGridView1.Columns[e.ColumnIndex].Visible = false;
-                
+
                 MessageBox.Show("Clicked");
             }
         }
@@ -464,58 +465,82 @@ namespace AfterEffects
 
         }
 
+        void AddToTextBox(string s)
+        {
+            var result = s + Environment.NewLine;
+            textBox2.Text += result;
+            //MessageBox.Show(result);
+
+        }
         void ReadEntries_Roller()
         {
-            var range = $"Roller!A2:F80";
+            var range = $"Roller!A1:F80";
             var request = service.Spreadsheets.Values.Get(SpreadSheetId, range);
-
             var response = request.Execute();
-
             var values = response.Values;
 
             if (values != null && values.Count > 0)
             {
                 int rowCheck = 0;
 
+                //for (int i = 0; i < values.Count; i++)
+                //{
+                //    MessageBox.Show(values[i].Count.ToString());
+                //    foreach (var item in values[i])
+                //    {
+                //        MessageBox.Show(item.ToString());
+                //    }
+
+                //}
+
+                //return;
                 foreach (var row in values)
                 {
-                    //MessageBox.Show("Row Count: " + row.Count.ToString());
-                    
+                    //int rowIndex = Convert.ToInt32(values.IndexOf(row)) + 1;
+                    //MessageBox.Show("Row: " + rowIndex.ToString());
+
                     for (int i = 0; i < row.Count; i++)
                     {
                         try
                         {
                             var cellValue = row[i];
-
+                            
                             try
                             {
                                 var cellNumber = Convert.ToInt32(cellValue);
                                 rowCheck = 0;
-                                MessageBox.Show("Number: " + cellNumber.ToString());
+
+                                AddToTextBox("Number: " + cellNumber.ToString());
+                                //textBox2.Text += "Number: " + cellNumber.ToString();
+                                //MessageBox.Show("Number: " + cellNumber.ToString());
                             }
                             catch (Exception)
                             {
                                 rowCheck += 1;
                                 var cellString = cellValue.ToString();
-
-                                if (rowCheck == 1)
-                                {
-                                    MessageBox.Show("Title: " + cellString.ToString());
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Name: " + cellString.ToString());
-                                }
+                                AddToTextBox(cellString.ToString());
+                                //if (rowCheck == 1)
+                                //{
+                                //    AddToTextBox("Title: " + cellString.ToString());
+                                //    //MessageBox.Show("Title: " + cellString.ToString());
+                                //}
+                                //else
+                                //{
+                                //    AddToTextBox("Name: " + cellString.ToString());
+                                //    //MessageBox.Show("Name: " + cellString.ToString());
+                                //}
                             }
                         }
                         catch (Exception)
                         {
-                            MessageBox.Show("Empty Cell");
+
+                            AddToTextBox("Empty Cell");
+                            //MessageBox.Show("Empty Cell");
                         }
                     }
 
-                    
-                   
+
+
 
                     //string title = row[0].ToString();
                     //string subject = row[1].ToString();
@@ -576,7 +601,7 @@ namespace AfterEffects
 
             dataGridView1.Rows[_index].DefaultCellStyle.ForeColor = Color.LightGray;
             dataGridView1.Rows[_index].Cells[9].Value = "Finished";
-            
+
             // Add disable buttons functions here
         }
 

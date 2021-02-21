@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AfterEffects", "AfterEffect
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dictioneries", "..\Dictioneries\Dictioneries.csproj", "{831748F0-FAD1-4E89-8ED5-581247A8E728}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple Server", "..\Simple Server\Simple Server.csproj", "{2C2AE63B-2B48-4EB1-85E2-DC8C2162F66A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{831748F0-FAD1-4E89-8ED5-581247A8E728}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{831748F0-FAD1-4E89-8ED5-581247A8E728}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{831748F0-FAD1-4E89-8ED5-581247A8E728}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C2AE63B-2B48-4EB1-85E2-DC8C2162F66A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C2AE63B-2B48-4EB1-85E2-DC8C2162F66A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C2AE63B-2B48-4EB1-85E2-DC8C2162F66A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C2AE63B-2B48-4EB1-85E2-DC8C2162F66A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -60,15 +60,6 @@ namespace AfterEffects
             this.TitlePBox = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.button3 = new System.Windows.Forms.Button();
-            this.lblTest = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.button6 = new System.Windows.Forms.Button();
-            this.JobsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.jobIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.titleTextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subjectTextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -78,6 +69,16 @@ namespace AfterEffects
             this.hebrewDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TEST = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.JobsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.button3 = new System.Windows.Forms.Button();
+            this.lblTest = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button5 = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.button6 = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SubjectBackgroundPBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SubjectPBox)).BeginInit();
@@ -386,6 +387,67 @@ namespace AfterEffects
             this.dataGridView1.TabIndex = 43;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
+            // jobIDDataGridViewTextBoxColumn
+            // 
+            this.jobIDDataGridViewTextBoxColumn.DataPropertyName = "JobID";
+            this.jobIDDataGridViewTextBoxColumn.HeaderText = "JobID";
+            this.jobIDDataGridViewTextBoxColumn.Name = "jobIDDataGridViewTextBoxColumn";
+            this.jobIDDataGridViewTextBoxColumn.Width = 50;
+            // 
+            // titleTextDataGridViewTextBoxColumn
+            // 
+            this.titleTextDataGridViewTextBoxColumn.DataPropertyName = "TitleText";
+            this.titleTextDataGridViewTextBoxColumn.HeaderText = "TitleText";
+            this.titleTextDataGridViewTextBoxColumn.Name = "titleTextDataGridViewTextBoxColumn";
+            this.titleTextDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // subjectTextDataGridViewTextBoxColumn
+            // 
+            this.subjectTextDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.subjectTextDataGridViewTextBoxColumn.DataPropertyName = "SubjectText";
+            this.subjectTextDataGridViewTextBoxColumn.HeaderText = "SubjectText";
+            this.subjectTextDataGridViewTextBoxColumn.Name = "subjectTextDataGridViewTextBoxColumn";
+            // 
+            // formatDataGridViewTextBoxColumn
+            // 
+            this.formatDataGridViewTextBoxColumn.DataPropertyName = "Format";
+            this.formatDataGridViewTextBoxColumn.HeaderText = "Format";
+            this.formatDataGridViewTextBoxColumn.Name = "formatDataGridViewTextBoxColumn";
+            // 
+            // filenameDataGridViewTextBoxColumn
+            // 
+            this.filenameDataGridViewTextBoxColumn.DataPropertyName = "Filename";
+            this.filenameDataGridViewTextBoxColumn.HeaderText = "Filename";
+            this.filenameDataGridViewTextBoxColumn.Name = "filenameDataGridViewTextBoxColumn";
+            // 
+            // outputFolderDataGridViewTextBoxColumn
+            // 
+            this.outputFolderDataGridViewTextBoxColumn.DataPropertyName = "OutputFolder";
+            this.outputFolderDataGridViewTextBoxColumn.HeaderText = "OutputFolder";
+            this.outputFolderDataGridViewTextBoxColumn.Name = "outputFolderDataGridViewTextBoxColumn";
+            // 
+            // hebrewDataGridViewCheckBoxColumn
+            // 
+            this.hebrewDataGridViewCheckBoxColumn.DataPropertyName = "Hebrew";
+            this.hebrewDataGridViewCheckBoxColumn.HeaderText = "Hebrew";
+            this.hebrewDataGridViewCheckBoxColumn.Name = "hebrewDataGridViewCheckBoxColumn";
+            this.hebrewDataGridViewCheckBoxColumn.Width = 60;
+            // 
+            // Status
+            // 
+            this.Status.HeaderText = "Status";
+            this.Status.Name = "Status";
+            // 
+            // TEST
+            // 
+            this.TEST.HeaderText = "TEST";
+            this.TEST.Name = "TEST";
+            this.TEST.ToolTipText = "TEST";
+            // 
+            // JobsBindingSource
+            // 
+            this.JobsBindingSource.DataSource = typeof(AfterEffects.Job);
+            // 
             // colorDialog1
             // 
             this.colorDialog1.AnyColor = true;
@@ -452,72 +514,20 @@ namespace AfterEffects
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
-            // JobsBindingSource
+            // textBox2
             // 
-            this.JobsBindingSource.DataSource = typeof(AfterEffects.Job);
-            // 
-            // jobIDDataGridViewTextBoxColumn
-            // 
-            this.jobIDDataGridViewTextBoxColumn.DataPropertyName = "JobID";
-            this.jobIDDataGridViewTextBoxColumn.HeaderText = "JobID";
-            this.jobIDDataGridViewTextBoxColumn.Name = "jobIDDataGridViewTextBoxColumn";
-            this.jobIDDataGridViewTextBoxColumn.Width = 50;
-            // 
-            // titleTextDataGridViewTextBoxColumn
-            // 
-            this.titleTextDataGridViewTextBoxColumn.DataPropertyName = "TitleText";
-            this.titleTextDataGridViewTextBoxColumn.HeaderText = "TitleText";
-            this.titleTextDataGridViewTextBoxColumn.Name = "titleTextDataGridViewTextBoxColumn";
-            this.titleTextDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // subjectTextDataGridViewTextBoxColumn
-            // 
-            this.subjectTextDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.subjectTextDataGridViewTextBoxColumn.DataPropertyName = "SubjectText";
-            this.subjectTextDataGridViewTextBoxColumn.HeaderText = "SubjectText";
-            this.subjectTextDataGridViewTextBoxColumn.Name = "subjectTextDataGridViewTextBoxColumn";
-            // 
-            // formatDataGridViewTextBoxColumn
-            // 
-            this.formatDataGridViewTextBoxColumn.DataPropertyName = "Format";
-            this.formatDataGridViewTextBoxColumn.HeaderText = "Format";
-            this.formatDataGridViewTextBoxColumn.Name = "formatDataGridViewTextBoxColumn";
-            // 
-            // filenameDataGridViewTextBoxColumn
-            // 
-            this.filenameDataGridViewTextBoxColumn.DataPropertyName = "Filename";
-            this.filenameDataGridViewTextBoxColumn.HeaderText = "Filename";
-            this.filenameDataGridViewTextBoxColumn.Name = "filenameDataGridViewTextBoxColumn";
-            // 
-            // outputFolderDataGridViewTextBoxColumn
-            // 
-            this.outputFolderDataGridViewTextBoxColumn.DataPropertyName = "OutputFolder";
-            this.outputFolderDataGridViewTextBoxColumn.HeaderText = "OutputFolder";
-            this.outputFolderDataGridViewTextBoxColumn.Name = "outputFolderDataGridViewTextBoxColumn";
-            // 
-            // hebrewDataGridViewCheckBoxColumn
-            // 
-            this.hebrewDataGridViewCheckBoxColumn.DataPropertyName = "Hebrew";
-            this.hebrewDataGridViewCheckBoxColumn.HeaderText = "Hebrew";
-            this.hebrewDataGridViewCheckBoxColumn.Name = "hebrewDataGridViewCheckBoxColumn";
-            this.hebrewDataGridViewCheckBoxColumn.Width = 60;
-            // 
-            // Status
-            // 
-            this.Status.HeaderText = "Status";
-            this.Status.Name = "Status";
-            // 
-            // TEST
-            // 
-            this.TEST.HeaderText = "TEST";
-            this.TEST.Name = "TEST";
-            this.TEST.ToolTipText = "TEST";
+            this.textBox2.Location = new System.Drawing.Point(264, 227);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(338, 290);
+            this.textBox2.TabIndex = 50;
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(899, 450);
+            this.ClientSize = new System.Drawing.Size(899, 557);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.textBox1);
@@ -617,5 +627,6 @@ namespace AfterEffects
         private System.Windows.Forms.DataGridViewCheckBoxColumn hebrewDataGridViewCheckBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Status;
         private System.Windows.Forms.DataGridViewTextBoxColumn TEST;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
