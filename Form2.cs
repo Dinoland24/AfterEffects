@@ -607,12 +607,9 @@ namespace AfterEffects
                 if (i != rowsList.Count - 1)
                 {
                     Dictionary<int, List<string>> zDict = new Dictionary<int, List<string>>();
-                    List<string> t = new List<string>();
-                    //string names = string.Empty;
                     int startRowIndex = rowsList[i];
                     int endRowIndex = rowsList[i + 1];
                     int range = endRowIndex - startRowIndex;
-                    //string readablePhrase = string.Empty;
                     for (int k = 0; k < range - 1; k++)
                     {
                         int cellCount = newList[startRowIndex].Count;
@@ -630,9 +627,6 @@ namespace AfterEffects
                         // Adding Names to Title Dictionary
                         for (int m = 0; m < cellCount; m++)
                         {
-                           
-                            //string[] namesJoin = null;
-                            //namesJoin[0] = "";
                             var z = newList[startRowIndex][m];
                             try
                             {
@@ -644,33 +638,15 @@ namespace AfterEffects
                                 if (!string.IsNullOrEmpty(z))
                                 {
                                     zDict[m].Add(z);
-
-                                    //namesJoin.Append(z);
-                                    t.Add(z);
-                                    //zDict[m] = z;
-
-                                    //namesJoin = string.Join("_", z);
-                                    //zDict[m] = null;
-
-                                    //AddToTextBox($"[{m}] {z}");
-                                    //AddToTextBox("");
                                 }
                             }
-
-                            
-                            //zDict[m] = readablePhrase;
-
                         }
 
-                        
-
-                        //MessageBox.Show(readablePhrase);
 
                         startRowIndex++;
                     }
                  
-                    //MessageBox.Show(readablePhrase);
-                    //zDict.Add(m) = readablePhrase;
+                  
                     topDict.Add(slide, zDict);
                     //AddToTextBox("[End of Slide]");
                     //AddToTextBox("");
