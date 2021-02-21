@@ -24,7 +24,12 @@ namespace AfterEffects
     {
         Dictionary<int, Dictionary<string, List<string>>> topDict = new Dictionary<int, Dictionary<string, List<string>>>();
         Dictionary<string, List<string>> lowDict = new Dictionary<string, List<string>>();
-        List<string> list = new List<string>();
+        Dictionary<int, List<string>> tempDict = new Dictionary<int, List<string>>();
+        int[] arr = new int[2];
+        List<List<string>> newList = new List<List<string>>();
+        List<int> rowsList = new List<int>();
+
+
         int slide = 1;
 
         // START
@@ -122,7 +127,7 @@ namespace AfterEffects
         private void Form2_Load(object sender, EventArgs e)
         {
             //AddToQueue();
-            ReadEntries_Roller();
+            ReadEntries_Roller_Test();
         }
         private async void button1_Click(object sender, EventArgs e)
         {
@@ -145,9 +150,11 @@ namespace AfterEffects
         }
         private void button2_Click(object sender, EventArgs e)
         {
+            Get_Values_From_Slide();
             //ReadEntries();
-            ReadEntries_Roller();
+            //ReadEntries_Roller();
         }
+
         private async void button3_Click(object sender, EventArgs e)
         {
             await RenderAll();
@@ -472,6 +479,271 @@ namespace AfterEffects
             //MessageBox.Show(result);
 
         }
+
+        void ReadEntries_Roller_Test()
+        {
+            #region Convert values from spreadsheet to newList
+            var range = $"Roller!A1:F80";
+            var request = service.Spreadsheets.Values.Get(SpreadSheetId, range);
+            var response = request.Execute();
+            var values = response.Values;
+
+            if (values != null && values.Count > 0)
+            {
+                //int rowCheck = 0;
+                //int cellNumber = 0;
+                foreach (var row in values)
+                {
+                    //int rowIndex = Convert.ToInt32(values.IndexOf(row)) + 1;
+                    List<string> tempList = new List<string>();
+                    for (int i = 0; i < row.Count; i++)
+                    {
+                        string cellValue = row[i].ToString();
+                        tempList.Add(cellValue);
+                        {
+                            //try
+                            //{
+                            //    cellNumber = Convert.ToInt32(cellValue);
+                            //    cellValue = cellNumber;
+                            //}
+                            //catch (Exception)
+                            //{
+
+                            //}
+
+                            //MessageBox.Show(cellValue.GetType().ToString());
+                            //MessageBox.Show(cellValue.ToString());
+                        }
+                        {
+                            //try
+                            //{
+                            //    //var cellValue = row[i];
+
+                            //    //try
+                            //    //{
+                            //    cellNumber = Convert.ToInt32(cellValue);
+                            //    //    rowCheck = 0;
+                            //    AddToTextBox("Slide: " + cellNumber.ToString());
+                            //    //topDict.Add(cellNumber, null);
+                            //    //}
+                            //    //catch (Exception)
+                            //    //{
+                            //    //    rowCheck += 1;
+                            //    //    var cellString = cellValue.ToString();
+                            //    //    if (rowCheck == 1)
+                            //    //    {
+                            //    //        lowDict.Add("Title", null);
+                            //    //        AddToTextBox("Title: " + cellString.ToString());
+                            //    //    }
+                            //    //    else
+                            //    //    {
+                            //    //        lowDict.Add("Name", null);
+                            //    //        AddToTextBox("Name: " + cellString.ToString());
+                            //    //    }
+                            //    //    //topDict[cellNumber] = lowDict;
+                            //    //}
+                            //}
+                            //catch (Exception)
+                            //{
+                            //    AddToTextBox("Not a Slide Number");
+                            //    rowCheck += 1;
+                            //    var cellString = cellValue.ToString();
+
+                            //    //list.Add(cellString);
+
+                            //    AddToTextBox("Name: " + cellString.ToString());
+
+                            //    //if (rowCheck == 1)
+                            //    //{
+                            //    //    list.Add(cellString.ToString());
+
+                            //    //    lowDict.Add("Title", null);
+                            //    //    AddToTextBox("Title: " + cellString.ToString());
+                            //    //}
+                            //    //else
+                            //    //{
+                            //    //    list.Add(cellString.ToString());
+                            //    //    lowDict.Add("Name", null);
+                            //    //    AddToTextBox("Name: " + cellString.ToString());
+                            //    //}
+
+                            //    //topDict[cellNumber] = lowDict;
+                            //}
+                        }
+                    }
+                    newList.Add(tempList);
+                }
+            }
+
+            #endregion
+
+            for (int i = 0; i < newList.Count; i++)
+            {
+                var itemsCount = newList[i].Count;
+
+
+                if (itemsCount > 0)
+                {
+                    try
+                    {
+                        int slideNumber = Convert.ToInt32(newList[i][0]);
+                        var rowIndex = newList.IndexOf(newList[i]);
+                        rowsList.Add(rowIndex);
+                        {
+                            //MessageBox.Show(slideNumber.ToString());
+                            //string title = newList[i + 1][0];
+                            //MessageBox.Show(title);
+
+                            //Get slide information here
+
+                            //Get slide information here
+                            //for (int k = 2; k < 6; k++)
+                            //{
+                            //    string names = newList[i + k][0];
+
+                            //    if (!string.IsNullOrEmpty(names))
+                            //    {
+                            //        MessageBox.Show
+                            //        ("Slide Number: " +
+                            //        slideNumber.ToString() +
+                            //        Environment.NewLine +
+                            //        title +
+                            //        ": " +
+                            //        names);
+
+                            //    }
+                            //}
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        try
+                        {
+                            string x = newList[i][0].ToString();
+                            if (x == "End")
+                            {
+                                var rowIndex = newList.IndexOf(newList[i]);
+                                rowsList.Add(rowIndex);
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
+                }
+
+                {
+                    //if (itemsCount > 1)
+                    //{
+
+                    //}
+                    //else if (itemsCount > 0) // When there's only one line
+                    //{
+                    //    try
+                    //    {
+                    //        int slideNumber = Convert.ToInt32(newList[i][0]);
+                    //        string title = newList[i+1][0];
+
+                    //        MessageBox.Show("Slide Number: " + slideNumber.ToString());
+                    //        MessageBox.Show(title);
+                    //        //Get slide information here
+
+                    //        //Get slide information here
+
+
+                    //    }
+                    //    catch (Exception)
+                    //    {
+                    //        //MessageBox.Show("Values: " + newList[i][0]);
+
+                    //    }
+                    //}
+                }
+            }
+
+            Get_Values_From_Slide();
+            {
+                //foreach (var row in newList)
+                //{
+                //    var itemsCount = row.Count;
+                //    var rowIndex = newList.IndexOf(row);
+
+                //    if (itemsCount > 1)
+                //    {
+
+                //    }
+                //    else if (itemsCount > 0) // When there's only one line
+                //    {
+                //        try
+                //        {
+                //            int slideNumber = Convert.ToInt32(row[0]);
+                //            MessageBox.Show("Slide Number: " + slideNumber.ToString());
+                //        }
+                //        catch (Exception)
+                //        {
+                //            MessageBox.Show("Values: " + row[0]);
+
+                //        }
+                //    }
+
+                //}
+                //var x = topDict[1];
+                //var xKey = topDict[1].Keys;
+                //MessageBox.Show(xKey.ToString());
+            }
+        }
+        void Get_Values_From_Slide()
+        {
+            for (int i = 0; i < rowsList.Count; i++)
+            {
+                if (i != rowsList.Count - 1)
+                {
+                    int startRowIndex = rowsList[i];
+                    int endRowIndex = rowsList[i + 1];
+                    int range = endRowIndex - startRowIndex;
+
+                    for (int k = 0; k < range - 1; k++)
+                    {
+                        int cellCount = newList[startRowIndex].Count;
+
+                        // Adding Title Dictionary
+                        for (int m = 0; m < cellCount; m++)
+                        {
+                            if (!tempDict.ContainsKey(m))
+                            {
+                                tempDict.Add(m, new List<string>());
+                            }
+                        }
+                       
+                        // Adding Names to Title Dictionary OLD - Cancel later
+                        for (int m = 0; m < cellCount; m++)
+                        {
+                            var z = newList[startRowIndex][m];
+                            try
+                            {
+                                Convert.ToInt32(z); // SLIDE DETECTED
+                                AddToTextBox($"[{z}]");
+                            }
+                            catch
+                            {
+                                if (!string.IsNullOrEmpty(z))
+                                {
+                                    tempDict[m].Add(z);
+                                    AddToTextBox($"[{m}] {z}");
+                                    AddToTextBox("");
+                                }
+                            }
+                        }
+                        startRowIndex++;
+                    }
+
+                    AddToTextBox("[End of Slide]");
+                    AddToTextBox("");
+                    tempDict.Clear();
+                }
+            }
+        }
         void ReadEntries_Roller()
         {
             var range = $"Roller!A1:F80";
@@ -483,20 +755,9 @@ namespace AfterEffects
             {
                 int rowCheck = 0;
 
-                //for (int i = 0; i < values.Count; i++)
-                //{
-                //    MessageBox.Show(values[i].Count.ToString());
-                //    foreach (var item in values[i])
-                //    {
-                //        MessageBox.Show(item.ToString());
-                //    }
-
-                //}
-
-                //return;
                 foreach (var row in values)
                 {
-                    //int rowIndex = Convert.ToInt32(values.IndexOf(row)) + 1;
+                    int rowIndex = Convert.ToInt32(values.IndexOf(row)) + 1;
                     //MessageBox.Show("Row: " + rowIndex.ToString());
 
                     for (int i = 0; i < row.Count; i++)
@@ -504,7 +765,7 @@ namespace AfterEffects
                         try
                         {
                             var cellValue = row[i];
-                            
+
                             try
                             {
                                 var cellNumber = Convert.ToInt32(cellValue);
@@ -518,17 +779,17 @@ namespace AfterEffects
                             {
                                 rowCheck += 1;
                                 var cellString = cellValue.ToString();
-                                AddToTextBox(cellString.ToString());
-                                //if (rowCheck == 1)
-                                //{
-                                //    AddToTextBox("Title: " + cellString.ToString());
-                                //    //MessageBox.Show("Title: " + cellString.ToString());
-                                //}
-                                //else
-                                //{
-                                //    AddToTextBox("Name: " + cellString.ToString());
-                                //    //MessageBox.Show("Name: " + cellString.ToString());
-                                //}
+                                //AddToTextBox(cellString.ToString());
+                                if (rowCheck == 1)
+                                {
+                                    AddToTextBox("Title: " + cellString.ToString());
+                                    //MessageBox.Show("Title: " + cellString.ToString());
+                                }
+                                else
+                                {
+                                    AddToTextBox("Name: " + cellString.ToString());
+                                    //MessageBox.Show("Name: " + cellString.ToString());
+                                }
                             }
                         }
                         catch (Exception)
