@@ -28,15 +28,13 @@ namespace AfterEffects
         int[] arr = new int[2];
         List<List<string>> newList = new List<List<string>>();
         List<int> rowsList = new List<int>();
-
-
         int slide = 1;
 
         // START
         #region Initilize Parameters
         const string WorkingFolder = @"D:\Projects\Automation\";
         readonly string outputJsonFile = $@"{WorkingFolder}\Colors.json";
-        readonly string outputRollerJsonFile = $@"{WorkingFolder}\Roller.json";
+        readonly string outputRollerJsonFile = $@"D:\Projects\Zigdon_Roller\Roller.json";
         readonly string _ProjectLocation = $@"{WorkingFolder}\AutoV1.aep";
         string _CompName = "Render_ENG"; // Render_HEB
         int jobId = 1;
@@ -129,7 +127,8 @@ namespace AfterEffects
         {
             //AddToQueue();
             ReadEntries_Roller_Test();
-            Read_from_TopDictionary();
+            UpdateRollerJsonFile(topDict);
+            //Read_from_TopDictionary();
         }
         private async void button1_Click(object sender, EventArgs e)
         {
@@ -330,6 +329,12 @@ namespace AfterEffects
             string x = JsonConvert.SerializeObject(colorObject, Formatting.Indented);
 
             File.WriteAllText(outputJsonFile, x);
+        }
+        private void UpdateRollerJsonFile(object obj)
+        {
+            string x = JsonConvert.SerializeObject(obj, Formatting.Indented);
+
+            File.WriteAllText(outputRollerJsonFile, x);
         }
         private void UpdateTextFile(string filename, string _title, string _subject)
         {
@@ -638,9 +643,10 @@ namespace AfterEffects
                                 }
                             }
                         }
+
                         startRowIndex++;
                     }
-
+                    
                     topDict.Add(slide, zDict);
                     //AddToTextBox("[End of Slide]");
                     //AddToTextBox("");
@@ -879,27 +885,56 @@ namespace AfterEffects
         {
             foreach (KeyValuePair<int, Dictionary<int, List<string>>> slide in topDict)
             {
+                int tempSlideNumer = 0;
+                int tempSlotNumer = 0;
+                string tempTitle = string.Empty;
+                List<string> tempList = new List<string>();
+
+                var info = new RollerInfo();
+                
                 AddToTextBox($"[Slide: {slide.Key}]");
+                tempSlideNumer = slide.Key;
+                
                 //MessageBox.Show($"Slide: {slide.Key}");
                 var x = slide.Value;
-
+                var slotinfo = new SlotInfo();
                 foreach (KeyValuePair<int, List<string>> item in x)
                 {
                     AddToTextBox($"Slot: {item.Key}");
+                    slotinfo.SlotNumber = item.Key;
+                    tempSlotNumer = item.Key;
                     //MessageBox.Show($"Slot: {item.Key}");
+                    
                     foreach (var str in item.Value)
                     {
                         var index = item.Value.IndexOf(str);
                         if (index == 0)
                         {
+                            tempTitle = str;
                             AddToTextBox($"Title: {str}");
+                            
                         }
                         else
                         {
+                            tempList.Add(str);
                             AddToTextBox($"Name: {str}");
                         }
                     }
+                    slotinfo.SlotNumber = tempSlotNumer;
+                    slotinfo.Title = tempTitle;
+                    slotinfo.list = tempList;
+
+
+                    info.SlideNumber = tempSlideNumer;
+                    info.slotinfo = slotinfo;
+
+                    //UpdateRollerJsonFile(info);
+                    tempList.Clear();
+
                 }
+
+                // End of Slide information
+                
                 AddToTextBox(string.Empty);
             }
         }
