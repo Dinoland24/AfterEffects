@@ -23,6 +23,7 @@ namespace AfterEffects
     public partial class Form2 : Form
     {
         Dictionary<int, Dictionary<int, List<string>>> topDict = new Dictionary<int, Dictionary<int, List<string>>>();
+
         Dictionary<string, List<string>> lowDict = new Dictionary<string, List<string>>();
         Dictionary<int, List<string>> tempDict = new Dictionary<int, List<string>>();
         int[] arr = new int[2];
@@ -606,10 +607,12 @@ namespace AfterEffects
                 if (i != rowsList.Count - 1)
                 {
                     Dictionary<int, List<string>> zDict = new Dictionary<int, List<string>>();
+                    List<string> t = new List<string>();
+                    //string names = string.Empty;
                     int startRowIndex = rowsList[i];
                     int endRowIndex = rowsList[i + 1];
                     int range = endRowIndex - startRowIndex;
-
+                    //string readablePhrase = string.Empty;
                     for (int k = 0; k < range - 1; k++)
                     {
                         int cellCount = newList[startRowIndex].Count;
@@ -623,10 +626,13 @@ namespace AfterEffects
                                 zDict.Add(m, new List<string>());
                             }
                         }
-
+                        
                         // Adding Names to Title Dictionary
                         for (int m = 0; m < cellCount; m++)
                         {
+                           
+                            //string[] namesJoin = null;
+                            //namesJoin[0] = "";
                             var z = newList[startRowIndex][m];
                             try
                             {
@@ -638,15 +644,33 @@ namespace AfterEffects
                                 if (!string.IsNullOrEmpty(z))
                                 {
                                     zDict[m].Add(z);
+
+                                    //namesJoin.Append(z);
+                                    t.Add(z);
+                                    //zDict[m] = z;
+
+                                    //namesJoin = string.Join("_", z);
+                                    //zDict[m] = null;
+
                                     //AddToTextBox($"[{m}] {z}");
                                     //AddToTextBox("");
                                 }
                             }
+
+                            
+                            //zDict[m] = readablePhrase;
+
                         }
+
+                        
+
+                        //MessageBox.Show(readablePhrase);
 
                         startRowIndex++;
                     }
-                    
+                 
+                    //MessageBox.Show(readablePhrase);
+                    //zDict.Add(m) = readablePhrase;
                     topDict.Add(slide, zDict);
                     //AddToTextBox("[End of Slide]");
                     //AddToTextBox("");
@@ -883,60 +907,65 @@ namespace AfterEffects
 
         void Read_from_TopDictionary()
         {
-            foreach (KeyValuePair<int, Dictionary<int, List<string>>> slide in topDict)
-            {
-                int tempSlideNumer = 0;
-                int tempSlotNumer = 0;
-                string tempTitle = string.Empty;
-                List<string> tempList = new List<string>();
+            //foreach (KeyValuePair<int, Dictionary<int, List<string>>> slide in topDict)
+            //{
+            //    int tempSlideNumer = 0;
+            //    int tempSlotNumer = 0;
+            //    string tempTitle = string.Empty;
+            //    string tempNames = string.Empty;
+            //    List<string> tempList = new List<string>();
 
-                var info = new RollerInfo();
+            //    var info = new RollerInfo();
                 
-                AddToTextBox($"[Slide: {slide.Key}]");
-                tempSlideNumer = slide.Key;
+            //    AddToTextBox($"[Slide: {slide.Key}]");
+            //    tempSlideNumer = slide.Key;
                 
-                //MessageBox.Show($"Slide: {slide.Key}");
-                var x = slide.Value;
-                var slotinfo = new SlotInfo();
-                foreach (KeyValuePair<int, List<string>> item in x)
-                {
-                    AddToTextBox($"Slot: {item.Key}");
-                    slotinfo.SlotNumber = item.Key;
-                    tempSlotNumer = item.Key;
-                    //MessageBox.Show($"Slot: {item.Key}");
+            //    //MessageBox.Show($"Slide: {slide.Key}");
+            //    var x = slide.Value;
+            //    var slotinfo = new SlotInfo();
+            //    foreach (KeyValuePair<int, string> item in x)
+            //    {
+            //        AddToTextBox($"Slot: {item.Key}");
+            //        slotinfo.SlotNumber = item.Key;
+            //        tempSlotNumer = item.Key;
+            //        tempNames = item.Value;
+            //        //MessageBox.Show($"Slot: {item.Key}");
                     
-                    foreach (var str in item.Value)
-                    {
-                        var index = item.Value.IndexOf(str);
-                        if (index == 0)
-                        {
-                            tempTitle = str;
-                            AddToTextBox($"Title: {str}");
+            //        //foreach (var str in item.Value)
+            //        //{
+            //        //    var index = item.Value.IndexOf(str);
+            //        //    if (index == 0)
+            //        //    {
+            //        //        tempTitle = str;
+            //        //        AddToTextBox($"Title: {str}");
                             
-                        }
-                        else
-                        {
-                            tempList.Add(str);
-                            AddToTextBox($"Name: {str}");
-                        }
-                    }
-                    slotinfo.SlotNumber = tempSlotNumer;
-                    slotinfo.Title = tempTitle;
-                    slotinfo.list = tempList;
+            //        //    }
+            //        //    else
+            //        //    {
+            //        //        tempList.Add(str);
+            //        //        AddToTextBox($"Name: {str}");
+            //        //    }
+            //        //    tempList.Add(str);
+            //        //}
+
+            //        slotinfo.SlotNumber = tempSlotNumer;
+            //        slotinfo.Title = tempTitle;
+            //        slotinfo.Names = tempTitle;
+            //        slotinfo.list = tempList;
 
 
-                    info.SlideNumber = tempSlideNumer;
-                    info.slotinfo = slotinfo;
+            //        info.SlideNumber = tempSlideNumer;
+            //        info.slotinfo = slotinfo;
 
-                    //UpdateRollerJsonFile(info);
-                    tempList.Clear();
+            //        //UpdateRollerJsonFile(info);
+            //        tempList.Clear();
 
-                }
+            //    }
 
-                // End of Slide information
+            //    // End of Slide information
                 
-                AddToTextBox(string.Empty);
-            }
+            //    AddToTextBox(string.Empty);
+            //}
         }
     }
 

@@ -6,6 +6,7 @@ namespace AfterEffects
     {
         public int SlotNumber { get; set; }
         public string Title { get; set; }
+        public string Names { get; set; }
         public List<string> list { get; set; }
     }
 }
