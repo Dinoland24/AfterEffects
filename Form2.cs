@@ -22,7 +22,7 @@ namespace AfterEffects
 {
     public partial class Form2 : Form
     {
-        Dictionary<int, Dictionary<string, List<string>>> topDict = new Dictionary<int, Dictionary<string, List<string>>>();
+        Dictionary<int, Dictionary<int, List<string>>> topDict = new Dictionary<int, Dictionary<int, List<string>>>();
         Dictionary<string, List<string>> lowDict = new Dictionary<string, List<string>>();
         Dictionary<int, List<string>> tempDict = new Dictionary<int, List<string>>();
         int[] arr = new int[2];
@@ -695,10 +695,12 @@ namespace AfterEffects
         }
         void Get_Values_From_Slide()
         {
+            int slide = 1;
             for (int i = 0; i < rowsList.Count; i++)
             {
                 if (i != rowsList.Count - 1)
                 {
+                    Dictionary<int, List<string>> zDict = new Dictionary<int, List<string>>();
                     int startRowIndex = rowsList[i];
                     int endRowIndex = rowsList[i + 1];
                     int range = endRowIndex - startRowIndex;
@@ -710,13 +712,14 @@ namespace AfterEffects
                         // Adding Title Dictionary
                         for (int m = 0; m < cellCount; m++)
                         {
-                            if (!tempDict.ContainsKey(m))
+                            if (!zDict.ContainsKey(m))
                             {
                                 tempDict.Add(m, new List<string>());
+                                zDict.Add(m, new List<string>());
                             }
                         }
-                       
-                        // Adding Names to Title Dictionary OLD - Cancel later
+
+                        // Adding Names to Title Dictionary
                         for (int m = 0; m < cellCount; m++)
                         {
                             var z = newList[startRowIndex][m];
@@ -729,7 +732,7 @@ namespace AfterEffects
                             {
                                 if (!string.IsNullOrEmpty(z))
                                 {
-                                    tempDict[m].Add(z);
+                                    zDict[m].Add(z);
                                     AddToTextBox($"[{m}] {z}");
                                     AddToTextBox("");
                                 }
@@ -738,12 +741,15 @@ namespace AfterEffects
                         startRowIndex++;
                     }
 
+                    topDict.Add(slide, zDict);
                     AddToTextBox("[End of Slide]");
                     AddToTextBox("");
+                    slide += 1;
                     tempDict.Clear();
                 }
             }
         }
+
         void ReadEntries_Roller()
         {
             var range = $"Roller!A1:F80";
