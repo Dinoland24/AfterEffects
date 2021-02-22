@@ -22,14 +22,17 @@ namespace AfterEffects
 {
     public partial class Form2 : Form
     {
-        Dictionary<int, Dictionary<int, List<string>>> topDict = new Dictionary<int, Dictionary<int, List<string>>>();
+        Dictionary<int, Dictionary<string, string>> topDict = new Dictionary<int, Dictionary<string, string>>();
 
         Dictionary<string, List<string>> lowDict = new Dictionary<string, List<string>>();
         Dictionary<int, List<string>> tempDict = new Dictionary<int, List<string>>();
-        int[] arr = new int[2];
+
+        Dictionary<string, string> fixDict = new Dictionary<string, string>();
+
+        Dictionary<string, string> slideDict = new Dictionary<string, string>();
         List<List<string>> newList = new List<List<string>>();
         List<int> rowsList = new List<int>();
-        int slide = 1;
+        //int slide = 1;
 
         // START
         #region Initilize Parameters
@@ -128,7 +131,8 @@ namespace AfterEffects
         {
             //AddToQueue();
             ReadEntries_Roller_Test();
-            UpdateRollerJsonFile(topDict);
+            var x = 4;
+            //UpdateRollerJsonFile(topDict);
             //Read_from_TopDictionary();
         }
         private async void button1_Click(object sender, EventArgs e)
@@ -623,7 +627,7 @@ namespace AfterEffects
                                 zDict.Add(m, new List<string>());
                             }
                         }
-                        
+
                         // Adding Names to Title Dictionary
                         for (int m = 0; m < cellCount; m++)
                         {
@@ -645,17 +649,97 @@ namespace AfterEffects
 
                         startRowIndex++;
                     }
-                 
-                  
-                    topDict.Add(slide, zDict);
+
+                    foreach (KeyValuePair<int, List<string>> sld in zDict)
+                    {
+                        string strJoin = string.Empty;
+                        string tempTitle = string.Empty;
+                        //string[] names = new string[4];
+                        List<string> lt = new List<string>();
+                        var x = sld.Key;
+                        var y = sld.Value;
+                        foreach (var item in y)
+                        {
+                            if (y.IndexOf(item) == 0)
+                            {
+                                tempTitle = item;
+
+                            }
+                            else
+                            {
+                                //names.Append(item);
+                                lt.Add(item);
+                                //slideDict.Add("Name", item);
+                            }
+                        }
+                        strJoin = string.Join<string>("_", lt);
+
+
+                        if (!fixDict.ContainsKey(tempTitle))
+                        {
+
+                            fixDict.Add(tempTitle, strJoin);
+                        }
+
+                        
+                        
+
+                        //else
+                        //    fixDict[tempTitle] = strJoin;
+
+
+                        //string xxx = "A";
+                        //MessageBox.Show(strJoin);
+                    }
+
+                    topDict.Add(slide, fixDict);
+                    slide += 1;
+
+                    fixDict.Clear();
                     //AddToTextBox("[End of Slide]");
                     //AddToTextBox("");
-                    slide += 1;
-                    tempDict.Clear();
+                    //slide += 1;
+                    //zDict.Clear();
+                    //tempDict.Clear();
+                    //fixDict.Clear();
                 }
             }
         }
+        void fixedDict(Dictionary<int, List<string>> zDict)
+        {
+            foreach (KeyValuePair<int, List<string>> slide in zDict)
+            {
+                string strJoin = string.Empty;
+                string tempTitle = string.Empty;
+                //string[] names = new string[4];
+                List<string> lt = new List<string>();
+                var x = slide.Key;
+                var y = slide.Value;
+                foreach (var item in y)
+                {
+                    if (y.IndexOf(item) == 0)
+                    {
+                        tempTitle = item;
+                        
+                    }
+                    else
+                    {
+                        //names.Append(item);
+                        lt.Add(item);
+                        //slideDict.Add("Name", item);
+                    }
+                }
+                strJoin = string.Join<string>("_", lt);
 
+                if (!fixDict.ContainsKey(tempTitle))
+                    fixDict.Add(tempTitle, strJoin);
+                //fixDict[tempTitle] = strJoin;
+
+
+                
+                //MessageBox.Show(strJoin);
+            }
+        }
         void ReadEntries_Roller()
         {
             var range = $"Roller!A1:F80";
@@ -892,10 +976,10 @@ namespace AfterEffects
             //    List<string> tempList = new List<string>();
 
             //    var info = new RollerInfo();
-                
+
             //    AddToTextBox($"[Slide: {slide.Key}]");
             //    tempSlideNumer = slide.Key;
-                
+
             //    //MessageBox.Show($"Slide: {slide.Key}");
             //    var x = slide.Value;
             //    var slotinfo = new SlotInfo();
@@ -906,7 +990,7 @@ namespace AfterEffects
             //        tempSlotNumer = item.Key;
             //        tempNames = item.Value;
             //        //MessageBox.Show($"Slot: {item.Key}");
-                    
+
             //        //foreach (var str in item.Value)
             //        //{
             //        //    var index = item.Value.IndexOf(str);
@@ -914,7 +998,7 @@ namespace AfterEffects
             //        //    {
             //        //        tempTitle = str;
             //        //        AddToTextBox($"Title: {str}");
-                            
+
             //        //    }
             //        //    else
             //        //    {
@@ -939,7 +1023,7 @@ namespace AfterEffects
             //    }
 
             //    // End of Slide information
-                
+
             //    AddToTextBox(string.Empty);
             //}
         }
