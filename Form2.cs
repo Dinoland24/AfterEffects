@@ -135,10 +135,10 @@ namespace AfterEffects
         {
             //AddToQueue();
             ReadEntries_Roller_Test();
-            Read_Slate_List();
+            //Read_Slate_List();
 
             //Modify_topDict();
-            UpdateRollerJsonFile(topDict);
+            UpdateRollerJsonFile(rollerInfos);
             //Read_from_TopDictionary();
         }
 
@@ -618,6 +618,7 @@ namespace AfterEffects
             }
             #endregion
 
+            // Not Neccessery??
             #region Creating rowList values
             for (int i = 0; i < newList.Count; i++)
             {
@@ -766,9 +767,9 @@ namespace AfterEffects
                                     
                                 }
                                 newSlot.Names = newSlot.Names.Substring(0, newSlot.Names.Length - 1);
-                                AddToTextBox($"SlotNames: {newSlot.Names}");
-                                //MessageBox.Show(newSlot.Names);
                                 globalSlots.Add(newSlot);
+
+                                AddToTextBox($"SlotNames: {newSlot.Names}");
                             }
                             // End of Slate
                             AddToTextBox("");
