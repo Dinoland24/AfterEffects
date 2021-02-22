@@ -6,6 +6,6 @@ namespace AfterEffects
     {
         public int SlateNumber { get; set; }
         
-        public SlotInfo slotinfo { get; set; }
+        public List<SlotInfo> slotInfo { get ; set; }
     }
 }

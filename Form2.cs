@@ -22,6 +22,8 @@ namespace AfterEffects
 {
     public partial class Form2 : Form
     {
+        List<RollerInfo> rollerInfos = new List<RollerInfo>();
+
         Dictionary<int, Dictionary<int, List<string>>> topDict = new Dictionary<int, Dictionary<int, List<string>>>();
 
         Dictionary<string, Dictionary<string, string>> topDictModified = new Dictionary<string, Dictionary<string, string>>();
@@ -133,10 +135,42 @@ namespace AfterEffects
         {
             //AddToQueue();
             ReadEntries_Roller_Test();
+            Read_Slate_List();
+
             //Modify_topDict();
             UpdateRollerJsonFile(topDict);
             //Read_from_TopDictionary();
         }
+
+        void Read_Slate_List()
+        {
+            foreach (var item in rollerInfos)
+            {
+                var slateNum = item.SlateNumber;
+                var slateSlots = item.slotInfo.Count;
+                foreach (var slot in item.slotInfo)
+                {
+
+                }
+                //foreach (var slot in slateSlots)
+                //{
+                //    MessageBox.Show(slot.Title);
+                //}
+                var result =
+                    $"Slate Number: {slateNum}" + Environment.NewLine +
+                    $"Slots in slate: {slateSlots}" + Environment.NewLine +
+                    $"" +
+                    $"";
+
+
+                MessageBox.Show(""
+                    
+
+
+                    );
+            }
+        }
+
         void Modify_topDict()
         {
             foreach (KeyValuePair<int, Dictionary<int, List<string>>> slide in topDict)
@@ -701,11 +735,14 @@ namespace AfterEffects
 
                             // Getting Title from row beneath
                             int newRow = rowIndex + 1;
+                            List<SlotInfo> globalSlots = new List<SlotInfo>();
                             foreach (var item in newList[newRow])
                             {
                                 var slotIndex = newList[newRow].IndexOf(item);
-
+                                
                                 var newSlot = new SlotInfo();
+                                
+
                                 newSlot.SlotNumber = slotIndex;
                                 newSlot.Title = item;
                                 AddToTextBox($"SlotNumber: {newSlot.SlotNumber}");
@@ -731,11 +768,22 @@ namespace AfterEffects
                                 newSlot.Names = newSlot.Names.Substring(0, newSlot.Names.Length - 1);
                                 AddToTextBox($"SlotNames: {newSlot.Names}");
                                 //MessageBox.Show(newSlot.Names);
-
+                                globalSlots.Add(newSlot);
                             }
+                            // End of Slate
                             AddToTextBox("");
+                            newSlate.slotInfo = globalSlots;
+
+                            rollerInfos.Add(newSlate);
+
+                            //// Tests
+                            //var zzz = newSlate.slotInfo;
+                            //foreach (var item in zzz)
+                            //{
+                            //    MessageBox.Show(item.Names);
+                            //}
+                            ////MessageBox.Show("Slate: " + zzz.ToString());
                         }
-                        //MessageBox.Show("String is a numeric representation: " + res);
                     }
                     #endregion
 
@@ -754,7 +802,6 @@ namespace AfterEffects
                     //Get_Values_From_newList_Rows(row);
 
                 }
-                //return;
             }
         }
         static string GetAllRow(List<string> lst)
