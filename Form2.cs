@@ -24,11 +24,16 @@ namespace AfterEffects
     {
         Dictionary<int, Dictionary<int, List<string>>> topDict = new Dictionary<int, Dictionary<int, List<string>>>();
 
-        Dictionary<string, List<string>> lowDict = new Dictionary<string, List<string>>();
+        Dictionary<string, Dictionary<string, string>> topDictModified = new Dictionary<string, Dictionary<string, string>>();
+
+
+        Dictionary<string, string> lowDict = new Dictionary<string, string>();
         Dictionary<int, List<string>> tempDict = new Dictionary<int, List<string>>();
-        int[] arr = new int[2];
+
         List<List<string>> newList = new List<List<string>>();
+
         List<int> rowsList = new List<int>();
+
         int slide = 1;
 
         // START
@@ -128,8 +133,76 @@ namespace AfterEffects
         {
             //AddToQueue();
             ReadEntries_Roller_Test();
+            //Modify_topDict();
             UpdateRollerJsonFile(topDict);
             //Read_from_TopDictionary();
+        }
+        void Modify_topDict()
+        {
+            foreach (KeyValuePair<int, Dictionary<int, List<string>>> slide in topDict)
+            {
+                string tempTitle = string.Empty;
+                string namesNew = string.Empty;
+                int currentSlide = slide.Key;
+
+                //lowDict.Add(slide.Key.ToString(), null);
+                //MessageBox.Show
+                //    ("Slide Number: " + Environment.NewLine + slide.Key.ToString());
+                //MessageBox.Show
+                //    ("Slide Value: " + Environment.NewLine + slide.Value.ToString());
+
+                foreach (var innferSlide in slide.Value)
+                {
+
+                    //MessageBox.Show
+                    //    ("Slot number: " + Environment.NewLine + innferSlide.Key.ToString());
+                    string[] names = new string[5];
+                    foreach (var str in innferSlide.Value)
+                    {
+                        //MessageBox.Show(str);
+                        var index = innferSlide.Value.IndexOf(str);
+                        if (index == 0)
+                        {
+                            tempTitle = str;
+                        }
+                        else
+                        {
+                            namesNew += (str + ",");
+                        }
+                    }
+                    namesNew = namesNew.Substring(0, namesNew.Length - 1);
+
+                    if (!lowDict.ContainsKey(tempTitle))
+                    {
+                        lowDict.Add(tempTitle, namesNew);
+                    }
+                    else
+                    {
+                        lowDict[tempTitle] = namesNew;
+                    }
+                    namesNew = string.Empty;
+                    tempTitle = string.Empty;
+
+                    string sld = currentSlide.ToString();
+                    bool test = topDictModified.ContainsKey(sld);
+                    if (!topDictModified.ContainsKey(sld))
+                    {
+                        topDictModified.Add(sld, lowDict);
+
+                    }
+                    //else
+                    //{
+                    //    topDictModified[sld] = lowDict;
+                    //}
+                    currentSlide += 1;
+
+
+                }
+
+
+                var endResult = 1;
+                //lowDict.Clear();
+            }
         }
         private async void button1_Click(object sender, EventArgs e)
         {
@@ -597,7 +670,95 @@ namespace AfterEffects
             }
             #endregion
 
-            Get_Values_From_Slide();
+            //Get_Values_From_Slide();
+            Get_Values_From_newList();
+        }
+
+        void Get_Values_From_newList()
+        {
+            foreach (var row in newList)
+            {
+                var rowCount = row.Count;
+                if (rowCount > 0) // Filters out all empty rows
+                {
+                    var rowIndex = newList.IndexOf(row);
+                    var rowType = row.GetType();
+
+                    #region Finds Numeric Values for new Slates
+                    if (row.Count == 1)
+                    {
+                        bool res;
+                        int a;
+                        string myStr = row[0];
+                        res = int.TryParse(myStr, out a);
+
+                        if (res) // Starting new Slate
+                        {
+                            var newSlate = new RollerInfo();
+                            newSlate.SlateNumber = a;
+                            AddToTextBox($"SlateNumber: {newSlate.SlateNumber}");
+                            //MessageBox.Show($"SlateNumber: {newSlate.SlateNumber}");
+
+                            // Getting Title from row beneath
+                            int newRow = rowIndex + 1;
+                            foreach (var item in newList[newRow])
+                            {
+                                var slotIndex = newList[newRow].IndexOf(item);
+
+                                var newSlot = new SlotInfo();
+                                newSlot.SlotNumber = slotIndex;
+                                newSlot.Title = item;
+                                AddToTextBox($"SlotNumber: {newSlot.SlotNumber}");
+                                AddToTextBox($"SlotTitle: {newSlot.Title}");
+
+                                // Getting Names 
+                                // (get all cells until no value or value is numeric)
+                                var z = newList[newRow + 1][slotIndex];
+                                MessageBox.Show(z);
+                            }
+                            AddToTextBox("");
+                        }
+                        //MessageBox.Show("String is a numeric representation: " + res);
+                    }
+                    #endregion
+
+
+                    #region Getting all names as one string
+                    //if (rowCount > 1)
+                    //{
+                    //    var lstTOstring = GetAllRow(row);
+                    //    MessageBox.Show(lstTOstring);
+                    //}
+                    #endregion
+
+                    //MessageBox.Show(rowCount.ToString());
+                    //MessageBox.Show(rowIndex.ToString());
+                    //MessageBox.Show(newList.IndexOf(row).ToString());
+                    //Get_Values_From_newList_Rows(row);
+
+                }
+                //return;
+            }
+        }
+        static string GetAllRow(List<string> lst)
+        {
+            string result = string.Empty;
+            foreach (var item in lst)
+            {
+                result += item + ",";
+
+            }
+            result = result.Substring(0, result.Length - 1);
+            //MessageBox.Show(result);
+            return result;
+        }
+        void Get_Values_From_newList_Rows(List<string> _list)
+        {
+            foreach (var cell in _list)
+            {
+                //MessageBox.Show(cell);
+                //MessageBox.Show(_list.IndexOf(cell).ToString());
+            }
         }
         void Get_Values_From_Slide()
         {
@@ -607,6 +768,7 @@ namespace AfterEffects
                 if (i != rowsList.Count - 1)
                 {
                     Dictionary<int, List<string>> zDict = new Dictionary<int, List<string>>();
+                    Dictionary<string, string> zDictModified = new Dictionary<string, string>();
                     int startRowIndex = rowsList[i];
                     int endRowIndex = rowsList[i + 1];
                     int range = endRowIndex - startRowIndex;
@@ -622,8 +784,16 @@ namespace AfterEffects
                                 //tempDict.Add(m, new List<string>());
                                 zDict.Add(m, new List<string>());
                             }
+                            if (!zDictModified.ContainsKey(m.ToString()))
+                            {
+                                //tempDict.Add(m, new List<string>());
+                                if (k == 1)
+                                {
+                                    zDictModified.Add(m.ToString(), string.Empty);
+                                }
+                            }
                         }
-                        
+
                         // Adding Names to Title Dictionary
                         for (int m = 0; m < cellCount; m++)
                         {
@@ -638,16 +808,30 @@ namespace AfterEffects
                                 if (!string.IsNullOrEmpty(z))
                                 {
                                     zDict[m].Add(z);
+
+                                    //if (k ==1)
+                                    //{
+                                    //    zDictModified[m.ToString()] += (z);
+                                    //}
+                                    //else if (k > 1)
+                                    //{
+                                    //    zDictModified[m.ToString()] += (z);
+                                    //}
+
+
+
+
+
                                 }
                             }
                         }
 
-
                         startRowIndex++;
                     }
-                 
-                  
+
+
                     topDict.Add(slide, zDict);
+                    topDictModified.Add(slide.ToString(), zDictModified);
                     //AddToTextBox("[End of Slide]");
                     //AddToTextBox("");
                     slide += 1;
@@ -655,6 +839,8 @@ namespace AfterEffects
                 }
             }
         }
+
+
 
         void ReadEntries_Roller()
         {
@@ -892,10 +1078,10 @@ namespace AfterEffects
             //    List<string> tempList = new List<string>();
 
             //    var info = new RollerInfo();
-                
+
             //    AddToTextBox($"[Slide: {slide.Key}]");
             //    tempSlideNumer = slide.Key;
-                
+
             //    //MessageBox.Show($"Slide: {slide.Key}");
             //    var x = slide.Value;
             //    var slotinfo = new SlotInfo();
@@ -906,7 +1092,7 @@ namespace AfterEffects
             //        tempSlotNumer = item.Key;
             //        tempNames = item.Value;
             //        //MessageBox.Show($"Slot: {item.Key}");
-                    
+
             //        //foreach (var str in item.Value)
             //        //{
             //        //    var index = item.Value.IndexOf(str);
@@ -914,7 +1100,7 @@ namespace AfterEffects
             //        //    {
             //        //        tempTitle = str;
             //        //        AddToTextBox($"Title: {str}");
-                            
+
             //        //    }
             //        //    else
             //        //    {
@@ -939,10 +1125,11 @@ namespace AfterEffects
             //    }
 
             //    // End of Slide information
-                
+
             //    AddToTextBox(string.Empty);
             //}
         }
     }
+
 
 }

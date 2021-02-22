@@ -4,7 +4,7 @@ namespace AfterEffects
 {
     public class RollerInfo
     {
-        public int SlideNumber { get; set; }
+        public int SlateNumber { get; set; }
         
         public SlotInfo slotinfo { get; set; }
     }
