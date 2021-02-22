@@ -692,7 +692,7 @@ namespace AfterEffects
                         string myStr = row[0];
                         res = int.TryParse(myStr, out a);
 
-                        if (res) // Starting new Slate
+                        if (res) // Starts only for cells that are numeric
                         {
                             var newSlate = new RollerInfo();
                             newSlate.SlateNumber = a;
@@ -713,8 +713,25 @@ namespace AfterEffects
 
                                 // Getting Names 
                                 // (get all cells until no value or value is numeric)
-                                var z = newList[newRow + 1][slotIndex];
-                                MessageBox.Show(z);
+                                for (int i = 1; i < 6; i++)
+                                {
+                                    try // In case that we run in an empty cell 
+                                        //(ADD CHECK IF NUMERIC)
+                                    {
+                                        var z = newList[newRow + i][slotIndex];
+                                        newSlot.Names += z + ",";
+                                        
+                                    }
+                                    catch (Exception)
+                                    {
+                                        break;
+                                    }
+                                    
+                                }
+                                newSlot.Names = newSlot.Names.Substring(0, newSlot.Names.Length - 1);
+                                AddToTextBox($"SlotNames: {newSlot.Names}");
+                                //MessageBox.Show(newSlot.Names);
+
                             }
                             AddToTextBox("");
                         }
