@@ -650,62 +650,26 @@ namespace AfterEffects
                         startRowIndex++;
                     }
 
-                    foreach (KeyValuePair<int, List<string>> sld in zDict)
-                    {
-                        string strJoin = string.Empty;
-                        string tempTitle = string.Empty;
-                        //string[] names = new string[4];
-                        List<string> lt = new List<string>();
-                        var x = sld.Key;
-                        var y = sld.Value;
-                        foreach (var item in y)
-                        {
-                            if (y.IndexOf(item) == 0)
-                            {
-                                tempTitle = item;
+                    fixedDict(slide, zDict);
 
-                            }
-                            else
-                            {
-                                //names.Append(item);
-                                lt.Add(item);
-                                //slideDict.Add("Name", item);
-                            }
-                        }
-                        strJoin = string.Join<string>("_", lt);
-
-
-                        if (!fixDict.ContainsKey(tempTitle))
-                        {
-
-                            fixDict.Add(tempTitle, strJoin);
-                        }
-
-                        
-                        
-
-                        //else
-                        //    fixDict[tempTitle] = strJoin;
-
-
-                        //string xxx = "A";
-                        //MessageBox.Show(strJoin);
-                    }
 
                     topDict.Add(slide, fixDict);
-                    slide += 1;
+                    //if (!topDict.ContainsKey(slide))
+                    //{
+                    //    topDict.Add(slide, fixDict);
+                    //    fixDict.Clear();
+                    //    zDict.Clear();
+                    //}
 
-                    fixDict.Clear();
                     //AddToTextBox("[End of Slide]");
                     //AddToTextBox("");
-                    //slide += 1;
-                    //zDict.Clear();
-                    //tempDict.Clear();
-                    //fixDict.Clear();
+                    slide += 1;
+                    
+
                 }
             }
         }
-        void fixedDict(Dictionary<int, List<string>> zDict)
+        void fixedDict(int slideNum, Dictionary<int, List<string>> zDict)
         {
             foreach (KeyValuePair<int, List<string>> slide in zDict)
             {
@@ -720,7 +684,7 @@ namespace AfterEffects
                     if (y.IndexOf(item) == 0)
                     {
                         tempTitle = item;
-                        
+
                     }
                     else
                     {
@@ -732,13 +696,27 @@ namespace AfterEffects
                 strJoin = string.Join<string>("_", lt);
 
                 if (!fixDict.ContainsKey(tempTitle))
+                {
                     fixDict.Add(tempTitle, strJoin);
+                    
+                }
                 //fixDict[tempTitle] = strJoin;
 
 
-                
+
                 //MessageBox.Show(strJoin);
             }
+
+            
+            //fixDict.Clear();
+            //zDict.Clear();
+            //if (!topDict.ContainsKey(slideNum))
+            //{
+            //    topDict.Add(slideNum, fixDict);
+            //    fixDict.Clear();
+
+            //}
+            //slide += 1;
         }
         void ReadEntries_Roller()
         {
