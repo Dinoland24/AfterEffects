@@ -29,7 +29,6 @@ namespace AfterEffects
         Dictionary<string, Dictionary<string, string>> topDictModified = new Dictionary<string, Dictionary<string, string>>();
 
 
-        Dictionary<string, string> lowDict = new Dictionary<string, string>();
         Dictionary<int, List<string>> tempDict = new Dictionary<int, List<string>>();
 
         List<List<string>> newList = new List<List<string>>();
@@ -134,112 +133,10 @@ namespace AfterEffects
         private void Form2_Load(object sender, EventArgs e)
         {
             //AddToQueue();
-            ReadEntries_Roller_Test();
-            //Read_Slate_List();
-
-            //Modify_topDict();
+            ReadEntries_Roller();
             UpdateRollerJsonFile(rollerInfos);
-            Close();
-
-            //Read_from_TopDictionary();
         }
 
-        void Read_Slate_List()
-        {
-            foreach (var item in rollerInfos)
-            {
-                var slateNum = item.SlateNumber;
-                var slateSlots = item.slotInfo.Count;
-                foreach (var slot in item.slotInfo)
-                {
-
-                }
-                //foreach (var slot in slateSlots)
-                //{
-                //    MessageBox.Show(slot.Title);
-                //}
-                var result =
-                    $"Slate Number: {slateNum}" + Environment.NewLine +
-                    $"Slots in slate: {slateSlots}" + Environment.NewLine +
-                    $"" +
-                    $"";
-
-
-                MessageBox.Show(""
-                    
-
-
-                    );
-            }
-        }
-
-        void Modify_topDict()
-        {
-            foreach (KeyValuePair<int, Dictionary<int, List<string>>> slide in topDict)
-            {
-                string tempTitle = string.Empty;
-                string namesNew = string.Empty;
-                int currentSlide = slide.Key;
-
-                //lowDict.Add(slide.Key.ToString(), null);
-                //MessageBox.Show
-                //    ("Slide Number: " + Environment.NewLine + slide.Key.ToString());
-                //MessageBox.Show
-                //    ("Slide Value: " + Environment.NewLine + slide.Value.ToString());
-
-                foreach (var innferSlide in slide.Value)
-                {
-
-                    //MessageBox.Show
-                    //    ("Slot number: " + Environment.NewLine + innferSlide.Key.ToString());
-                    string[] names = new string[5];
-                    foreach (var str in innferSlide.Value)
-                    {
-                        //MessageBox.Show(str);
-                        var index = innferSlide.Value.IndexOf(str);
-                        if (index == 0)
-                        {
-                            tempTitle = str;
-                        }
-                        else
-                        {
-                            namesNew += (str + ",");
-                        }
-                    }
-                    namesNew = namesNew.Substring(0, namesNew.Length - 1);
-
-                    if (!lowDict.ContainsKey(tempTitle))
-                    {
-                        lowDict.Add(tempTitle, namesNew);
-                    }
-                    else
-                    {
-                        lowDict[tempTitle] = namesNew;
-                    }
-                    namesNew = string.Empty;
-                    tempTitle = string.Empty;
-
-                    string sld = currentSlide.ToString();
-                    bool test = topDictModified.ContainsKey(sld);
-                    if (!topDictModified.ContainsKey(sld))
-                    {
-                        topDictModified.Add(sld, lowDict);
-
-                    }
-                    //else
-                    //{
-                    //    topDictModified[sld] = lowDict;
-                    //}
-                    currentSlide += 1;
-
-
-                }
-
-
-                var endResult = 1;
-                //lowDict.Clear();
-            }
-        }
         private async void button1_Click(object sender, EventArgs e)
         {
             await AddToQueue();
@@ -261,9 +158,6 @@ namespace AfterEffects
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            Get_Values_From_Slide();
-            //ReadEntries();
-            //ReadEntries_Roller();
         }
 
         private async void button3_Click(object sender, EventArgs e)
@@ -597,7 +491,7 @@ namespace AfterEffects
 
         }
 
-        void ReadEntries_Roller_Test()
+        void ReadEntries_Roller()
         {
             #region Convert values from spreadsheet to newList
             var range = $"Roller!A1:F80";
@@ -818,183 +712,6 @@ namespace AfterEffects
                 }
             }
         }
-        static string GetAllRow(List<string> lst)
-        {
-            string result = string.Empty;
-            foreach (var item in lst)
-            {
-                result += item + ",";
-
-            }
-            result = result.Substring(0, result.Length - 1);
-            //MessageBox.Show(result);
-            return result;
-        }
-        void Get_Values_From_newList_Rows(List<string> _list)
-        {
-            foreach (var cell in _list)
-            {
-                //MessageBox.Show(cell);
-                //MessageBox.Show(_list.IndexOf(cell).ToString());
-            }
-        }
-        void Get_Values_From_Slide()
-        {
-            int slide = 1;
-            for (int i = 0; i < rowsList.Count; i++)
-            {
-                if (i != rowsList.Count - 1)
-                {
-                    Dictionary<int, List<string>> zDict = new Dictionary<int, List<string>>();
-                    Dictionary<string, string> zDictModified = new Dictionary<string, string>();
-                    int startRowIndex = rowsList[i];
-                    int endRowIndex = rowsList[i + 1];
-                    int range = endRowIndex - startRowIndex;
-                    for (int k = 0; k < range - 1; k++)
-                    {
-                        int cellCount = newList[startRowIndex].Count;
-
-                        // Adding Title Dictionary
-                        for (int m = 0; m < cellCount; m++)
-                        {
-                            if (!zDict.ContainsKey(m))
-                            {
-                                //tempDict.Add(m, new List<string>());
-                                zDict.Add(m, new List<string>());
-                            }
-                            if (!zDictModified.ContainsKey(m.ToString()))
-                            {
-                                //tempDict.Add(m, new List<string>());
-                                if (k == 1)
-                                {
-                                    zDictModified.Add(m.ToString(), string.Empty);
-                                }
-                            }
-                        }
-
-                        // Adding Names to Title Dictionary
-                        for (int m = 0; m < cellCount; m++)
-                        {
-                            var z = newList[startRowIndex][m];
-                            try
-                            {
-                                Convert.ToInt32(z); // SLIDE DETECTED
-                                //AddToTextBox($"[{z}]");
-                            }
-                            catch
-                            {
-                                if (!string.IsNullOrEmpty(z))
-                                {
-                                    zDict[m].Add(z);
-
-                                    //if (k ==1)
-                                    //{
-                                    //    zDictModified[m.ToString()] += (z);
-                                    //}
-                                    //else if (k > 1)
-                                    //{
-                                    //    zDictModified[m.ToString()] += (z);
-                                    //}
-
-
-
-
-
-                                }
-                            }
-                        }
-
-                        startRowIndex++;
-                    }
-
-
-                    topDict.Add(slide, zDict);
-                    topDictModified.Add(slide.ToString(), zDictModified);
-                    //AddToTextBox("[End of Slide]");
-                    //AddToTextBox("");
-                    slide += 1;
-                    tempDict.Clear();
-                }
-            }
-        }
-
-
-
-        void ReadEntries_Roller()
-        {
-            var range = $"Roller!A1:F80";
-            var request = service.Spreadsheets.Values.Get(SpreadSheetId, range);
-            var response = request.Execute();
-            var values = response.Values;
-
-            if (values != null && values.Count > 0)
-            {
-                int rowCheck = 0;
-
-                foreach (var row in values)
-                {
-                    int rowIndex = Convert.ToInt32(values.IndexOf(row)) + 1;
-                    //MessageBox.Show("Row: " + rowIndex.ToString());
-
-                    for (int i = 0; i < row.Count; i++)
-                    {
-                        try
-                        {
-                            var cellValue = row[i];
-
-                            try
-                            {
-                                var cellNumber = Convert.ToInt32(cellValue);
-                                rowCheck = 0;
-
-                                //AddToTextBox("Number: " + cellNumber.ToString());
-                                //textBox2.Text += "Number: " + cellNumber.ToString();
-                                //MessageBox.Show("Number: " + cellNumber.ToString());
-                            }
-                            catch (Exception)
-                            {
-                                rowCheck += 1;
-                                var cellString = cellValue.ToString();
-                                //AddToTextBox(cellString.ToString());
-                                if (rowCheck == 1)
-                                {
-                                    //AddToTextBox("Title: " + cellString.ToString());
-                                    //MessageBox.Show("Title: " + cellString.ToString());
-                                }
-                                else
-                                {
-                                    //AddToTextBox("Name: " + cellString.ToString());
-                                    //MessageBox.Show("Name: " + cellString.ToString());
-                                }
-                            }
-                        }
-                        catch (Exception)
-                        {
-
-                            //AddToTextBox("Empty Cell");
-                            //MessageBox.Show("Empty Cell");
-                        }
-                    }
-
-
-
-
-                    //string title = row[0].ToString();
-                    //string subject = row[1].ToString();
-                    //string format = row[2].ToString();
-                    //string filename = row[3].ToString();
-                    //string outputFolder = row[4].ToString();
-                    //bool hebrew = Convert.ToBoolean(row[5]);
-
-                    //AddToQueue(title, subject, format, filename, outputFolder, hebrew);
-                }
-            }
-            else
-            {
-                MessageBox.Show("No Data was found");
-            }
-
-        }
 
         #endregion
 
@@ -1145,69 +862,5 @@ namespace AfterEffects
         }
         #endregion
 
-        void Read_from_TopDictionary()
-        {
-            //foreach (KeyValuePair<int, Dictionary<int, List<string>>> slide in topDict)
-            //{
-            //    int tempSlideNumer = 0;
-            //    int tempSlotNumer = 0;
-            //    string tempTitle = string.Empty;
-            //    string tempNames = string.Empty;
-            //    List<string> tempList = new List<string>();
-
-            //    var info = new RollerInfo();
-
-            //    AddToTextBox($"[Slide: {slide.Key}]");
-            //    tempSlideNumer = slide.Key;
-
-            //    //MessageBox.Show($"Slide: {slide.Key}");
-            //    var x = slide.Value;
-            //    var slotinfo = new SlotInfo();
-            //    foreach (KeyValuePair<int, string> item in x)
-            //    {
-            //        AddToTextBox($"Slot: {item.Key}");
-            //        slotinfo.SlotNumber = item.Key;
-            //        tempSlotNumer = item.Key;
-            //        tempNames = item.Value;
-            //        //MessageBox.Show($"Slot: {item.Key}");
-
-            //        //foreach (var str in item.Value)
-            //        //{
-            //        //    var index = item.Value.IndexOf(str);
-            //        //    if (index == 0)
-            //        //    {
-            //        //        tempTitle = str;
-            //        //        AddToTextBox($"Title: {str}");
-
-            //        //    }
-            //        //    else
-            //        //    {
-            //        //        tempList.Add(str);
-            //        //        AddToTextBox($"Name: {str}");
-            //        //    }
-            //        //    tempList.Add(str);
-            //        //}
-
-            //        slotinfo.SlotNumber = tempSlotNumer;
-            //        slotinfo.Title = tempTitle;
-            //        slotinfo.Names = tempTitle;
-            //        slotinfo.list = tempList;
-
-
-            //        info.SlideNumber = tempSlideNumer;
-            //        info.slotinfo = slotinfo;
-
-            //        //UpdateRollerJsonFile(info);
-            //        tempList.Clear();
-
-            //    }
-
-            //    // End of Slide information
-
-            //    AddToTextBox(string.Empty);
-            //}
-        }
     }
-
-
 }
