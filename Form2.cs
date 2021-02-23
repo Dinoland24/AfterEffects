@@ -139,6 +139,8 @@ namespace AfterEffects
 
             //Modify_topDict();
             UpdateRollerJsonFile(rollerInfos);
+            Close();
+
             //Read_from_TopDictionary();
         }
 
@@ -736,6 +738,8 @@ namespace AfterEffects
 
                             // Getting Title from row beneath
                             int newRow = rowIndex + 1;
+                            int slotCount = newList[newRow].Count;
+                            newSlate.Slots = slotCount;
                             List<SlotInfo> globalSlots = new List<SlotInfo>();
                             foreach (var item in newList[newRow])
                             {
@@ -756,6 +760,16 @@ namespace AfterEffects
                                     try // In case that we run in an empty cell 
                                         //(ADD CHECK IF NUMERIC)
                                     {
+
+                                        //bool isNum;
+                                        //int Num;
+                                        //string stringCheck = row[0];
+                                        //isNum = int.TryParse(stringCheck, out Num);
+
+                                        //if (isNum)
+                                        //{
+                                        //    MessageBox.Show($"Found Number: {Num}");
+                                        //}
                                         var z = newList[newRow + i][slotIndex];
                                         newSlot.Names += z + ",";
                                         
@@ -764,9 +778,8 @@ namespace AfterEffects
                                     {
                                         break;
                                     }
-                                    
                                 }
-                                newSlot.Names = newSlot.Names.Substring(0, newSlot.Names.Length - 1);
+                                //newSlot.Names = newSlot.Names.Substring(0, newSlot.Names.Length - 1);
                                 globalSlots.Add(newSlot);
 
                                 AddToTextBox($"SlotNames: {newSlot.Names}");
