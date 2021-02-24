@@ -22,23 +22,12 @@ namespace AfterEffects
 {
     public partial class Form2 : Form
     {
+        #region Initilize Parameters
         List<RollerInfo> rollerInfos = new List<RollerInfo>();
-
-        Dictionary<int, Dictionary<int, List<string>>> topDict = new Dictionary<int, Dictionary<int, List<string>>>();
-
-        Dictionary<string, Dictionary<string, string>> topDictModified = new Dictionary<string, Dictionary<string, string>>();
-
-
-        Dictionary<int, List<string>> tempDict = new Dictionary<int, List<string>>();
 
         List<List<string>> newList = new List<List<string>>();
 
         List<int> rowsList = new List<int>();
-
-        int slide = 1;
-
-        // START
-        #region Initilize Parameters
         const string WorkingFolder = @"D:\Projects\Automation\";
         readonly string outputJsonFile = $@"{WorkingFolder}\Colors.json";
         readonly string outputRollerJsonFile = $@"D:\Projects\Zigdon_Roller\Roller.json";
