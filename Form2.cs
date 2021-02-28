@@ -129,10 +129,15 @@ namespace AfterEffects
             //UpdateRollerJsonFile(rollerInfos);
             var x = topDict.Count;
             topDict.Add("Count", x);
+            if (IsHebrew)
+                topDict.Add("Language", "1");
+            else
+                topDict.Add("Language", "0");
             UpdateRollerJsonFile(topDict);
+            Close();
         }
-      
-        
+
+
         private async void button1_Click(object sender, EventArgs e)
         {
             await AddToQueue();
@@ -378,15 +383,9 @@ namespace AfterEffects
             }
 
             if (found)
-            {
                 return true;
-                //txtLanguage.Text = "Hebrew Detected";
-            }
             else
-            {
                 return false;
-                //txtLanguage.Text = "Unknowen";
-            }
         }
         public static string Reverse(string s)
         {
@@ -529,7 +528,7 @@ namespace AfterEffects
         void ReadEntries_Roller()
         {
             #region Convert values from spreadsheet to newList
-            var range = $"Roller!A1:F80";
+            var range = $"{Sheet}!A1:F80";
             var request = service.Spreadsheets.Values.Get(SpreadSheetId, range);
             var response = request.Execute();
             var values = response.Values;
@@ -673,11 +672,11 @@ namespace AfterEffects
                             foreach (var item in newList[newRow])
                             {
                                 var slotIndex = newList[newRow].IndexOf(item);
-                                
+
                                 var newSlot = new SlotInfo();
 
                                 newSlot.SlotNumber = slotIndex;
-                                
+
                                 if (HebrewDetection(item))
                                 {
                                     HebrewFound = true;
@@ -725,13 +724,13 @@ namespace AfterEffects
                             }
                             // End of Slate
                             AddToTextBox("");
-                            
+
                             if (HebrewFound)
                                 globalSlots.Reverse();
-                            
+
                             newSlate.slotInfo = globalSlots;
 
-                            topDict.Add($"{newSlate.SlateNumber}" , newSlate);
+                            topDict.Add($"{newSlate.SlateNumber}", newSlate);
                             rollerInfos.Add(newSlate);
                         }
                     }
