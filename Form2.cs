@@ -132,44 +132,7 @@ namespace AfterEffects
             UpdateRollerJsonFile(topDict);
         }
       
-        static bool HebrewDetection(string value)
-        {
-            bool found = false;
-            #region Adding hebrew letters to Char List
-            List<Char> hebrewLettersList = new List<char>();
-            string hebrewLetters = "אבגדהוזחטיכלמנסעפצקרשת";
-            foreach (var letter in hebrewLetters)
-            {
-                hebrewLettersList.Add(letter);
-            }
-            #endregion
-
-            //txtInputString.Text = "abcאdבef";
-            var input = value;
-
-            foreach (var item in input)
-            {
-                for (int i = 0; i < hebrewLettersList.Count; i++)
-                {
-                    if (item == hebrewLettersList[i])
-                    {
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            if (found)
-            {
-                return true;
-                //txtLanguage.Text = "Hebrew Detected";
-            }
-            else
-            {
-                return false;
-                //txtLanguage.Text = "Unknowen";
-            }
-        }
+        
         private async void button1_Click(object sender, EventArgs e)
         {
             await AddToQueue();
@@ -387,7 +350,44 @@ namespace AfterEffects
         #endregion
 
         #region Hebrew Manipulation
+        static bool HebrewDetection(string value)
+        {
+            bool found = false;
+            #region Adding hebrew letters to Char List
+            List<Char> hebrewLettersList = new List<char>();
+            string hebrewLetters = "אבגדהוזחטיכלמנסעפצקרשת";
+            foreach (var letter in hebrewLetters)
+            {
+                hebrewLettersList.Add(letter);
+            }
+            #endregion
 
+            //txtInputString.Text = "abcאdבef";
+            var input = value;
+
+            foreach (var item in input)
+            {
+                for (int i = 0; i < hebrewLettersList.Count; i++)
+                {
+                    if (item == hebrewLettersList[i])
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found)
+            {
+                return true;
+                //txtLanguage.Text = "Hebrew Detected";
+            }
+            else
+            {
+                return false;
+                //txtLanguage.Text = "Unknowen";
+            }
+        }
         public static string Reverse(string s)
         {
             char[] charArray = s.ToCharArray();
@@ -397,6 +397,7 @@ namespace AfterEffects
 
         static string HebrewStringCheck(string s)
         {
+            //Reverse only the numbers in string
             List<string> list = new List<string>();
             List<string> mix_string_list = new List<string>();
             var line = s.Split(' ');
@@ -641,6 +642,7 @@ namespace AfterEffects
 
         void Get_Values_From_newList()
         {
+            bool HebrewFound = false;
             foreach (var row in newList)
             {
                 var rowCount = row.Count;
@@ -677,7 +679,10 @@ namespace AfterEffects
                                 newSlot.SlotNumber = slotIndex;
                                 
                                 if (HebrewDetection(item))
+                                {
+                                    HebrewFound = true;
                                     newSlot.Title = Reverse(item);
+                                }
                                 else
                                     newSlot.Title = item;
 
@@ -720,6 +725,10 @@ namespace AfterEffects
                             }
                             // End of Slate
                             AddToTextBox("");
+                            
+                            if (HebrewFound)
+                                globalSlots.Reverse();
+                            
                             newSlate.slotInfo = globalSlots;
 
                             topDict.Add($"{newSlate.SlateNumber}" , newSlate);
