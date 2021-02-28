@@ -516,10 +516,10 @@ namespace AfterEffects
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(396, 12);
+            this.textBox2.Location = new System.Drawing.Point(11, 413);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(340, 533);
+            this.textBox2.Size = new System.Drawing.Size(448, 132);
             this.textBox2.TabIndex = 50;
             // 
             // Form2

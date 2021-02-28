@@ -23,11 +23,13 @@ namespace AfterEffects
     public partial class Form2 : Form
     {
         #region Initilize Parameters
+        public bool IsHebrew = false;
+
+        Dictionary<string, object> topDict = new Dictionary<string, object>();
         List<RollerInfo> rollerInfos = new List<RollerInfo>();
-
         List<List<string>> newList = new List<List<string>>();
-
         List<int> rowsList = new List<int>();
+
         const string WorkingFolder = @"D:\Projects\Automation\";
         readonly string outputJsonFile = $@"{WorkingFolder}\Colors.json";
         readonly string outputRollerJsonFile = $@"D:\Projects\Zigdon_Roller\Roller.json";
@@ -123,9 +125,51 @@ namespace AfterEffects
         {
             //AddToQueue();
             ReadEntries_Roller();
-            UpdateRollerJsonFile(rollerInfos);
-        }
 
+            //UpdateRollerJsonFile(rollerInfos);
+            var x = topDict.Count;
+            topDict.Add("Count", x);
+            UpdateRollerJsonFile(topDict);
+        }
+      
+        static bool HebrewDetection(string value)
+        {
+            bool found = false;
+            #region Adding hebrew letters to Char List
+            List<Char> hebrewLettersList = new List<char>();
+            string hebrewLetters = "אבגדהוזחטיכלמנסעפצקרשת";
+            foreach (var letter in hebrewLetters)
+            {
+                hebrewLettersList.Add(letter);
+            }
+            #endregion
+
+            //txtInputString.Text = "abcאdבef";
+            var input = value;
+
+            foreach (var item in input)
+            {
+                for (int i = 0; i < hebrewLettersList.Count; i++)
+                {
+                    if (item == hebrewLettersList[i])
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found)
+            {
+                return true;
+                //txtLanguage.Text = "Hebrew Detected";
+            }
+            else
+            {
+                return false;
+                //txtLanguage.Text = "Unknowen";
+            }
+        }
         private async void button1_Click(object sender, EventArgs e)
         {
             await AddToQueue();
@@ -329,6 +373,7 @@ namespace AfterEffects
 
             File.WriteAllText(outputRollerJsonFile, x);
         }
+
         private void UpdateTextFile(string filename, string _title, string _subject)
         {
             // Create a string array that consists of three lines.
@@ -617,7 +662,6 @@ namespace AfterEffects
                             var newSlate = new RollerInfo();
                             newSlate.SlateNumber = a;
                             AddToTextBox($"SlateNumber: {newSlate.SlateNumber}");
-                            //MessageBox.Show($"SlateNumber: {newSlate.SlateNumber}");
 
                             // Getting Title from row beneath
                             int newRow = rowIndex + 1;
@@ -629,10 +673,14 @@ namespace AfterEffects
                                 var slotIndex = newList[newRow].IndexOf(item);
                                 
                                 var newSlot = new SlotInfo();
-                                
 
                                 newSlot.SlotNumber = slotIndex;
-                                newSlot.Title = item;
+                                
+                                if (HebrewDetection(item))
+                                    newSlot.Title = Reverse(item);
+                                else
+                                    newSlot.Title = item;
+
                                 AddToTextBox($"SlotNumber: {newSlot.SlotNumber}");
                                 AddToTextBox($"SlotTitle: {newSlot.Title}");
 
@@ -654,15 +702,18 @@ namespace AfterEffects
                                         //    MessageBox.Show($"Found Number: {Num}");
                                         //}
                                         var z = newList[newRow + i][slotIndex];
-                                        newSlot.Names += z + ",";
-                                        
+
+                                        if (HebrewDetection(z))
+                                            z = newSlot.Names += Reverse(z) + ",";
+                                        else
+                                            newSlot.Names += z + ",";
                                     }
                                     catch (Exception)
                                     {
                                         break;
                                     }
                                 }
-                                //newSlot.Names = newSlot.Names.Substring(0, newSlot.Names.Length - 1);
+                                //newSlot.Names = newSlot.Names.Substring(0, newSlot.Names.Length - 1); // canceled for list splits
                                 globalSlots.Add(newSlot);
 
                                 AddToTextBox($"SlotNames: {newSlot.Names}");
@@ -671,33 +722,11 @@ namespace AfterEffects
                             AddToTextBox("");
                             newSlate.slotInfo = globalSlots;
 
+                            topDict.Add($"{newSlate.SlateNumber}" , newSlate);
                             rollerInfos.Add(newSlate);
-
-                            //// Tests
-                            //var zzz = newSlate.slotInfo;
-                            //foreach (var item in zzz)
-                            //{
-                            //    MessageBox.Show(item.Names);
-                            //}
-                            ////MessageBox.Show("Slate: " + zzz.ToString());
                         }
                     }
                     #endregion
-
-
-                    #region Getting all names as one string
-                    //if (rowCount > 1)
-                    //{
-                    //    var lstTOstring = GetAllRow(row);
-                    //    MessageBox.Show(lstTOstring);
-                    //}
-                    #endregion
-
-                    //MessageBox.Show(rowCount.ToString());
-                    //MessageBox.Show(rowIndex.ToString());
-                    //MessageBox.Show(newList.IndexOf(row).ToString());
-                    //Get_Values_From_newList_Rows(row);
-
                 }
             }
         }
