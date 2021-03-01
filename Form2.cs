@@ -129,10 +129,11 @@ namespace AfterEffects
             //UpdateRollerJsonFile(rollerInfos);
             var x = topDict.Count;
             topDict.Add("Count", x);
+
             if (IsHebrew)
-                topDict.Add("Language", "1");
+                topDict.Add("Language", 1);
             else
-                topDict.Add("Language", "0");
+                topDict.Add("Language", 0);
             UpdateRollerJsonFile(topDict);
             Close();
         }
@@ -635,7 +636,6 @@ namespace AfterEffects
             }
             #endregion
 
-            //Get_Values_From_Slide();
             Get_Values_From_newList();
         }
 
@@ -688,36 +688,103 @@ namespace AfterEffects
                                 AddToTextBox($"SlotNumber: {newSlot.SlotNumber}");
                                 AddToTextBox($"SlotTitle: {newSlot.Title}");
 
-                                // Getting Names 
-                                // (get all cells until no value or value is numeric)
+                                #region Gets longest string in names
+                                int stringLength = 0;
+                                int difference = 0;
                                 for (int i = 1; i < 6; i++)
                                 {
-                                    try // In case that we run in an empty cell 
-                                        //(ADD CHECK IF NUMERIC)
+                                    try
+                                    {
+                                        var z = newList[newRow + i][slotIndex];
+                                        if (z.Length > stringLength)
+                                        {
+                                            stringLength = z.Length;
+
+                                        }
+                                    }
+                                    catch (Exception)
                                     {
 
-                                        //bool isNum;
-                                        //int Num;
-                                        //string stringCheck = row[0];
-                                        //isNum = int.TryParse(stringCheck, out Num);
+                                    }
+                                }
+                                #endregion
 
-                                        //if (isNum)
-                                        //{
-                                        //    MessageBox.Show($"Found Number: {Num}");
-                                        //}
+                                {
+                                    // Getting Names 
+                                    // (get all cells until no value or value is numeric)
+                                    //for (int i = 1; i < 6; i++)
+                                    //{
+                                    //    try // In case that we run in an empty cell 
+                                    //        //(ADD CHECK IF NUMERIC)
+                                    //    {
+
+                                    //        //bool isNum;
+                                    //        //int Num;
+                                    //        //string stringCheck = row[0];
+                                    //        //isNum = int.TryParse(stringCheck, out Num);
+
+                                    //        //if (isNum)
+                                    //        //{
+                                    //        //    MessageBox.Show($"Found Number: {Num}");
+                                    //        //}
+                                    //        int difference = 0;
+                                    //        string addonBlank = string.Empty;
+                                    //        var z = newList[newRow + i][slotIndex];
+                                    //        if (z.Length < stringLength)
+                                    //        {
+                                    //            difference = stringLength - z.Length;
+
+                                    //            // ???
+
+
+                                    //            // Adds empty letter to match the longest name
+                                    //            for (int k = 0; k < difference; k++)
+                                    //            {
+                                    //                addonBlank += "  ";
+                                    //            }
+                                    //            addonBlank += " ";
+
+
+                                    //        }
+
+                                    //        if (newSlate.Slots == 1)
+                                    //        {
+                                    //            addonBlank = string.Empty;
+                                    //        }
+
+                                    //        if (HebrewDetection(z))
+                                    //            z = newSlot.Names += addonBlank + Reverse(z) + ",";
+                                    //        else
+                                    //            newSlot.Names += z + addonBlank + ",";
+
+                                    //    }
+                                    //    catch (Exception)
+                                    //    {
+                                    //        //for (int index = 0; index < newSlot.Names.Count; index++)
+                                    //        //{
+
+                                    //        //}
+
+                                    //        break;
+                                    //    }
+                                    //}
+                                    //newSlot.Names = newSlot.Names.Substring(0, newSlot.Names.Length - 1); // canceled for list splits
+                                } // Still in Progress ???
+                                
+                                // Original function
+                                for (int i = 1; i < 6; i++)
+                                {
+                                    try 
+                                    {
                                         var z = newList[newRow + i][slotIndex];
-
                                         if (HebrewDetection(z))
                                             z = newSlot.Names += Reverse(z) + ",";
                                         else
                                             newSlot.Names += z + ",";
+
                                     }
-                                    catch (Exception)
-                                    {
-                                        break;
-                                    }
+                                    catch { break; }
                                 }
-                                //newSlot.Names = newSlot.Names.Substring(0, newSlot.Names.Length - 1); // canceled for list splits
                                 globalSlots.Add(newSlot);
 
                                 AddToTextBox($"SlotNames: {newSlot.Names}");
@@ -726,7 +793,10 @@ namespace AfterEffects
                             AddToTextBox("");
 
                             if (HebrewFound)
+                            {
                                 globalSlots.Reverse();
+                                IsHebrew = true;
+                            }
 
                             newSlate.slotInfo = globalSlots;
 
