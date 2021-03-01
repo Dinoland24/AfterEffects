@@ -361,7 +361,7 @@ namespace AfterEffects
             bool found = false;
             #region Adding hebrew letters to Char List
             List<Char> hebrewLettersList = new List<char>();
-            string hebrewLetters = "אבגדהוזחטיכלמנסעפצקרשת";
+            string hebrewLetters = "אבגדהוזחטיכךלמםנןסעפףצץקרשת";
             foreach (var letter in hebrewLetters)
             {
                 hebrewLettersList.Add(letter);
@@ -371,22 +371,32 @@ namespace AfterEffects
             //txtInputString.Text = "abcאdבef";
             var input = value;
 
-            foreach (var item in input)
+            for (int i = 0; i < hebrewLettersList.Count; i++)
             {
-                for (int i = 0; i < hebrewLettersList.Count; i++)
+                if (input.Contains(hebrewLettersList[i]))
                 {
-                    if (item == hebrewLettersList[i])
-                    {
-                        found = true;
-                        break;
-                    }
+                    found = true;
+                    break;
                 }
             }
 
-            if (found)
-                return true;
-            else
-                return false;
+            //foreach (var item in input)
+            //{
+            //    for (int i = 0; i < hebrewLettersList.Count; i++)
+            //    {
+            //        if (item == hebrewLettersList[i])
+            //        {
+            //            found = true;
+            //            break;
+            //        }
+            //    }
+            //}
+
+            //if (found)
+            //    return true;
+            //else
+            //    return false;
+            return found;
         }
         public static string Reverse(string s)
         {
@@ -696,10 +706,12 @@ namespace AfterEffects
                                     try
                                     {
                                         var z = newList[newRow + i][slotIndex];
-                                        if (z.Length > stringLength)
+                                        var w = GetStringLength(newList[newRow + i][slotIndex]);
+                                        if (w > stringLength)
                                         {
-                                            stringLength = z.Length;
 
+                                            
+                                            stringLength = w;
                                         }
                                     }
                                     catch (Exception)
@@ -710,29 +722,17 @@ namespace AfterEffects
                                 #endregion
 
                                 {
-                                    // Getting Names 
-                                    // (get all cells until no value or value is numeric)
+
                                     //for (int i = 1; i < 6; i++)
                                     //{
-                                    //    try // In case that we run in an empty cell 
-                                    //        //(ADD CHECK IF NUMERIC)
+                                    //    try
                                     //    {
-
-                                    //        //bool isNum;
-                                    //        //int Num;
-                                    //        //string stringCheck = row[0];
-                                    //        //isNum = int.TryParse(stringCheck, out Num);
-
-                                    //        //if (isNum)
-                                    //        //{
-                                    //        //    MessageBox.Show($"Found Number: {Num}");
-                                    //        //}
-                                    //        int difference = 0;
                                     //        string addonBlank = string.Empty;
                                     //        var z = newList[newRow + i][slotIndex];
-                                    //        if (z.Length < stringLength)
+                                    //        var w = GetStringLength(newList[newRow + i][slotIndex]);
+                                    //        if (w < stringLength)
                                     //        {
-                                    //            difference = stringLength - z.Length;
+                                    //            difference = (stringLength - w) * 2;
 
                                     //            // ???
 
@@ -740,7 +740,7 @@ namespace AfterEffects
                                     //            // Adds empty letter to match the longest name
                                     //            for (int k = 0; k < difference; k++)
                                     //            {
-                                    //                addonBlank += "  ";
+                                    //                addonBlank += " ";
                                     //            }
                                     //            addonBlank += " ";
 
@@ -753,28 +753,23 @@ namespace AfterEffects
                                     //        }
 
                                     //        if (HebrewDetection(z))
-                                    //            z = newSlot.Names += addonBlank + Reverse(z) + ",";
+                                    //            newSlot.Names += addonBlank + Reverse(z) + ",";
                                     //        else
                                     //            newSlot.Names += z + addonBlank + ",";
 
                                     //    }
                                     //    catch (Exception)
                                     //    {
-                                    //        //for (int index = 0; index < newSlot.Names.Count; index++)
-                                    //        //{
-
-                                    //        //}
-
-                                    //        break;
+                                    //       break;
                                     //    }
                                     //}
-                                    //newSlot.Names = newSlot.Names.Substring(0, newSlot.Names.Length - 1); // canceled for list splits
+                                    
                                 } // Still in Progress ???
-                                
+
                                 // Original function
                                 for (int i = 1; i < 6; i++)
                                 {
-                                    try 
+                                    try
                                     {
                                         var z = newList[newRow + i][slotIndex];
                                         if (HebrewDetection(z))
@@ -957,6 +952,40 @@ namespace AfterEffects
             }); // Counter visable
         }
         #endregion
+
+        static int GetStringLength(string value)
+        {
+            var input = value;
+            var inputLength = value.Length;
+            int shortCounter = 0;
+            int longCounter = 0;
+            #region Adding hebrew letters to Char List
+            List<Char> hebrewLettersList = new List<char>();
+            string hebrewLetters = "וין";
+            foreach (var letter in hebrewLetters)
+            {
+                hebrewLettersList.Add(letter);
+            }
+            #endregion
+
+            foreach (var item in input)
+            {
+                for (int i = 0; i < hebrewLettersList.Count; i++)
+                {
+                    if (item == hebrewLettersList[i])
+                        shortCounter++;
+                }
+            }
+
+            longCounter = inputLength - shortCounter;
+
+            //int result = shortCounter * 2 + longCounter;
+            //txtSearchOutput.Text = (shortCounter * 2).ToString();
+            //txtSearchOutput2.Text = (longCounter).ToString();
+
+            int result = shortCounter * 2 + longCounter;
+            return result;
+        }
 
     }
 }
