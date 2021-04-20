@@ -96,7 +96,7 @@ namespace AfterEffects
             InitializeComponent();
             FormatComboBox.SelectedIndex = 0;
 
-            txt_Title.Text = "Companies destructions";
+            txt_Title.Text = "Companies עברית destructions";
             txt_Subject.Text = "Why is there so many elctronic stuff?";
             txt_Filename.Text = "Test_File";
 
@@ -131,7 +131,7 @@ namespace AfterEffects
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            var titleText = HebrewStringCheck(txt_Title.Text);
+            var titleText = HebrewStringModify(txt_Title.Text);
             var format = FormatComboBox.Text;
             var filename = txt_Filename.Text;
             var outputFolder = txt_Output.Text;
@@ -154,15 +154,77 @@ namespace AfterEffects
                 catch (IOException)
                 {
                 }
-                textBox1.Text = openFileDialog1.FileName;
+                txtTestInput.Text = openFileDialog1.FileName;
             }
             MessageBox.Show(size.ToString()); // <-- Shows file size in debugging mode.
             MessageBox.Show(result.ToString()); // <-- For debugging use.
         }
         private void button6_Click(object sender, EventArgs e)
         {
-            var x = HebrewStringCheck(textBox1.Text);
-            textBox1.Text = x;
+            List<string> FullText = new List<string>();
+            var txtInput = txtTestInput.Text;
+            var line = txtInput.Split(' ');
+            foreach (string word in line)
+            {
+                string tempWord = string.Empty;
+
+                if (HebrewDetection(word))
+                {
+                    tempWord = Reverse(word);
+
+                    //txtTestOutput.Text = "Hebrew Found";
+                }
+                else
+                {
+                    tempWord = word;
+                }
+
+                if (tempWord.Contains(","))
+                {
+                    string x = tempWord.Replace(",", "");
+                    string y = "," + x;
+                    tempWord = y;
+                }
+                FullText.Add(tempWord);
+            }
+            FullText.Reverse();
+            string combindedString = string.Join(" ", FullText.ToArray());
+            //combindedString = Reverse(combindedString);
+            txtTestOutput.Text = combindedString;
+
+            //UpdateJsonFile();
+            UpdateTextFile("file", combindedString, "tempSubject");
+
+            return;
+
+
+
+
+
+            string tempString = string.Empty;
+            var _title = txt_Title.Text;
+            if (HebrewDetection(_title))
+            {
+                tempString = HebrewStringModify(_title);
+                tempString = Reverse(_title);
+                //return;
+
+            }
+            else
+            {
+                tempString = _title;
+            }
+            //var x = HebrewStringModify(txt_Title.Text);
+
+            this.BeginInvoke((Action)delegate ()
+            {
+                txtTestInput.Text = tempString;
+            });
+
+
+            //UpdateJsonFile();
+            //UpdateTextFile("file", tempString, "tempSubject");
+
         }
 
         #region Add to Queue
@@ -289,7 +351,7 @@ namespace AfterEffects
         #endregion
 
         #region Hebrew Manipulation
-        
+
         public static string Reverse(string s)
         {
             char[] charArray = s.ToCharArray();
@@ -297,7 +359,40 @@ namespace AfterEffects
             return new string(charArray);
         }
 
-        static string HebrewStringCheck(string s)
+        static string HebrewStringModify_New(string s)
+        {
+            List<string> FullText = new List<string>();
+            var txtInput = s;
+            var line = txtInput.Split(' ');
+            foreach (string word in line)
+            {
+                string tempWord = string.Empty;
+
+                if (HebrewDetection(word))
+                {
+                    tempWord = Reverse(word);
+
+                    //txtTestOutput.Text = "Hebrew Found";
+                }
+                else
+                {
+                    tempWord = word;
+                }
+
+                if (tempWord.Contains(","))
+                {
+                    string x = tempWord.Replace(",", "");
+                    string y = "," + x;
+                    tempWord = y;
+                }
+                FullText.Add(tempWord);
+            }
+            FullText.Reverse();
+            string combindedString = string.Join(" ", FullText.ToArray());
+            //combindedString = Reverse(combindedString);
+            return combindedString;
+        }
+        static string HebrewStringModify(string s)
         {
             List<string> list = new List<string>();
             List<string> mix_string_list = new List<string>();
@@ -338,7 +433,51 @@ namespace AfterEffects
                 }
             }
             string combindedString = string.Join(" ", list.ToArray());
+            combindedString = Reverse(combindedString);
             return combindedString;
+        }
+
+        static bool HebrewDetection(string value)
+        {
+            bool found = false;
+            #region Adding hebrew letters to Char List
+            List<Char> hebrewLettersList = new List<char>();
+            string hebrewLetters = "אבגדהוזחטיכךלמםנןסעפףצץקרשת";
+            foreach (var letter in hebrewLetters)
+            {
+                hebrewLettersList.Add(letter);
+            }
+            #endregion
+
+            //txtInputString.Text = "abcאdבef";
+            var input = value;
+
+            for (int i = 0; i < hebrewLettersList.Count; i++)
+            {
+                if (input.Contains(hebrewLettersList[i]))
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            //foreach (var item in input)
+            //{
+            //    for (int i = 0; i < hebrewLettersList.Count; i++)
+            //    {
+            //        if (item == hebrewLettersList[i])
+            //        {
+            //            found = true;
+            //            break;
+            //        }
+            //    }
+            //}
+
+            //if (found)
+            //    return true;
+            //else
+            //    return false;
+            return found;
         }
         #endregion
 
@@ -352,7 +491,7 @@ namespace AfterEffects
             txt_Title.Focus();
         }
 
-       
+
 
         private async void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -452,6 +591,9 @@ namespace AfterEffects
 
             dataGridView1.Rows[_index].Cells[9].Value = "In Progress...";
             dataGridView1.Rows[_index].ReadOnly = true;
+            
+            titleText = HebrewStringModify_New(titleText);
+            subjectText = HebrewStringModify_New(subjectText);
 
             await Task.Run(() =>
             {
@@ -466,16 +608,9 @@ namespace AfterEffects
         private void RenderFiles(string _title, string _subject, string _fileName, string _format, string _outpFolder, bool hebrew)
         {
             if (hebrew)
-            {
-                _title = Reverse(_title);
-                _subject = Reverse(_subject);
                 _CompName = "Render_HEB";
-            }
             else
-            {
                 _CompName = "Render_ENG";
-                //_CompName = "Comp1";
-            }
 
             UpdateJsonFile();
             UpdateTextFile("file", _title, _subject);

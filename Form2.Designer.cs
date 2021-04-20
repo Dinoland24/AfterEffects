@@ -67,10 +67,11 @@ namespace AfterEffects
             this.button3 = new System.Windows.Forms.Button();
             this.lblTest = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtTestInput = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button6 = new System.Windows.Forms.Button();
+            this.txtTestOutput = new System.Windows.Forms.TextBox();
             this.jobIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.titleTextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subjectTextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -442,13 +443,13 @@ namespace AfterEffects
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // textBox1
+            // txtTestInput
             // 
-            this.textBox1.Location = new System.Drawing.Point(626, 110);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(155, 20);
-            this.textBox1.TabIndex = 47;
-            this.textBox1.Text = "שלום ל-37 אנשים";
+            this.txtTestInput.Location = new System.Drawing.Point(626, 110);
+            this.txtTestInput.Name = "txtTestInput";
+            this.txtTestInput.Size = new System.Drawing.Size(155, 20);
+            this.txtTestInput.TabIndex = 47;
+            this.txtTestInput.Text = "שלומי רפאל, בן 49, אב ל-6 ילדים Facebook";
             // 
             // button5
             // 
@@ -473,6 +474,13 @@ namespace AfterEffects
             this.button6.Text = "button6";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // txtTestOutput
+            // 
+            this.txtTestOutput.Location = new System.Drawing.Point(626, 136);
+            this.txtTestOutput.Name = "txtTestOutput";
+            this.txtTestOutput.Size = new System.Drawing.Size(155, 20);
+            this.txtTestOutput.TabIndex = 50;
             // 
             // jobIDDataGridViewTextBoxColumn
             // 
@@ -529,9 +537,10 @@ namespace AfterEffects
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(899, 450);
+            this.Controls.Add(this.txtTestOutput);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtTestInput);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.lblTest);
             this.Controls.Add(this.button3);
@@ -625,9 +634,10 @@ namespace AfterEffects
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label lblTest;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtTestInput;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TextBox txtTestOutput;
     }
 }
