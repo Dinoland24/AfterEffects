@@ -131,7 +131,7 @@ namespace AfterEffects
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            var titleText = HebrewStringModify(txt_Title.Text);
+            var titleText = HebrewStringModify_New(txt_Title.Text);
             var format = FormatComboBox.Text;
             var filename = txt_Filename.Text;
             var outputFolder = txt_Output.Text;
@@ -161,6 +161,8 @@ namespace AfterEffects
         }
         private void button6_Click(object sender, EventArgs e)
         {
+            HebrewStringModify_New(txtTestInput.Text);
+            return;
             List<string> FullText = new List<string>();
             var txtInput = txtTestInput.Text;
             var line = txtInput.Split(' ');
@@ -192,7 +194,7 @@ namespace AfterEffects
             //combindedString = Reverse(combindedString);
             txtTestOutput.Text = combindedString;
 
-            //UpdateJsonFile();
+            UpdateJsonFile();
             UpdateTextFile("file", combindedString, "tempSubject");
 
             return;
@@ -385,6 +387,38 @@ namespace AfterEffects
                     string y = "," + x;
                     tempWord = y;
                 }
+
+
+                if (tempWord.Contains("-"))
+                {
+                    var MixString = word.Split('-');
+
+                    List<string> DevidedString = new List<string>();
+                    foreach (string inner_word in MixString)
+                    {
+                        try
+                        {
+                            var x = Convert.ToDouble(inner_word);
+                            DevidedString.Add(inner_word);
+                        }
+                        catch (Exception)
+                        {
+                            DevidedString.Reverse();
+                            DevidedString.Add(inner_word);
+                        }
+                    }
+
+                    DevidedString.Reverse();
+                    string combindedString2 = string.Join("-", DevidedString.ToArray());
+                    tempWord = combindedString2;
+                }
+
+
+                if (tempWord.Contains(":"))
+                {
+                    // Split and reverse number if double????
+                }
+
                 FullText.Add(tempWord);
             }
             FullText.Reverse();
@@ -392,6 +426,7 @@ namespace AfterEffects
             //combindedString = Reverse(combindedString);
             return combindedString;
         }
+
         static string HebrewStringModify(string s)
         {
             List<string> list = new List<string>();
@@ -404,6 +439,7 @@ namespace AfterEffects
                     var MixString = word.Split('-');
                     foreach (string inner_word in MixString)
                     {
+                        //MessageBox.Show(inner_word);
                         try
                         {
                             Convert.ToInt32(inner_word);
@@ -591,7 +627,7 @@ namespace AfterEffects
 
             dataGridView1.Rows[_index].Cells[9].Value = "In Progress...";
             dataGridView1.Rows[_index].ReadOnly = true;
-            
+
             titleText = HebrewStringModify_New(titleText);
             subjectText = HebrewStringModify_New(subjectText);
 
@@ -651,7 +687,7 @@ namespace AfterEffects
             this.BeginInvoke((Action)delegate ()
             {
                 lbl_Status.Text = "Finished";
-            }); // Counter visable
+            });
         }
 
         private void RenderFiles(string _title, string _fileName, string _format, string _outpFolder)
@@ -697,7 +733,7 @@ namespace AfterEffects
             this.BeginInvoke((Action)delegate ()
             {
                 lbl_Status.Text = "Finished";
-            }); // Counter visable
+            });
         }
         #endregion
 

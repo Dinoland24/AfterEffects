@@ -447,13 +447,14 @@ namespace AfterEffects
             // 
             this.txtTestInput.Location = new System.Drawing.Point(626, 110);
             this.txtTestInput.Name = "txtTestInput";
-            this.txtTestInput.Size = new System.Drawing.Size(155, 20);
+            this.txtTestInput.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.txtTestInput.Size = new System.Drawing.Size(232, 20);
             this.txtTestInput.TabIndex = 47;
-            this.txtTestInput.Text = "שלומי רפאל, בן 49, אב ל-6 ילדים Facebook";
+            this.txtTestInput.Text = "האם יהיו בחירות ב-24.5 שוב?";
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(787, 108);
+            this.button5.Location = new System.Drawing.Point(864, 103);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(23, 23);
             this.button5.TabIndex = 48;
@@ -479,7 +480,8 @@ namespace AfterEffects
             // 
             this.txtTestOutput.Location = new System.Drawing.Point(626, 136);
             this.txtTestOutput.Name = "txtTestOutput";
-            this.txtTestOutput.Size = new System.Drawing.Size(155, 20);
+            this.txtTestOutput.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.txtTestOutput.Size = new System.Drawing.Size(232, 20);
             this.txtTestOutput.TabIndex = 50;
             // 
             // jobIDDataGridViewTextBoxColumn
