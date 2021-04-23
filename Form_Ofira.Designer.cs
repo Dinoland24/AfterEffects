@@ -41,8 +41,24 @@ namespace AfterEffects
             this.txt_Subject = new System.Windows.Forms.TextBox();
             this.lbl_Title = new System.Windows.Forms.Label();
             this.txt_Title = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnRun = new System.Windows.Forms.Button();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.SubjectBackgroundPBox = new System.Windows.Forms.PictureBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.SubjectPBox = new System.Windows.Forms.PictureBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.TitleBackgroundPBox = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.TitlePBox = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.lbl_Status = new System.Windows.Forms.Label();
+            this.lbl_1 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.SubjectBackgroundPBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SubjectPBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TitleBackgroundPBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TitlePBox)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -57,7 +73,7 @@ namespace AfterEffects
             // chk_Hebrew
             // 
             this.chk_Hebrew.AutoSize = true;
-            this.chk_Hebrew.Location = new System.Drawing.Point(293, 91);
+            this.chk_Hebrew.Location = new System.Drawing.Point(511, 143);
             this.chk_Hebrew.Name = "chk_Hebrew";
             this.chk_Hebrew.Size = new System.Drawing.Size(63, 17);
             this.chk_Hebrew.TabIndex = 42;
@@ -96,7 +112,7 @@ namespace AfterEffects
             // chk_Animation
             // 
             this.chk_Animation.AutoSize = true;
-            this.chk_Animation.Location = new System.Drawing.Point(293, 69);
+            this.chk_Animation.Location = new System.Drawing.Point(511, 121);
             this.chk_Animation.Name = "chk_Animation";
             this.chk_Animation.Size = new System.Drawing.Size(72, 17);
             this.chk_Animation.TabIndex = 38;
@@ -148,17 +164,19 @@ namespace AfterEffects
             // 
             this.txt_Title.Location = new System.Drawing.Point(94, 66);
             this.txt_Title.Name = "txt_Title";
+            this.txt_Title.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.txt_Title.Size = new System.Drawing.Size(193, 20);
             this.txt_Title.TabIndex = 32;
             // 
-            // button1
+            // btnRun
             // 
-            this.button1.Location = new System.Drawing.Point(34, 24);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 44;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnRun.Location = new System.Drawing.Point(34, 26);
+            this.btnRun.Name = "btnRun";
+            this.btnRun.Size = new System.Drawing.Size(75, 23);
+            this.btnRun.TabIndex = 44;
+            this.btnRun.Text = "Run";
+            this.btnRun.UseVisualStyleBackColor = true;
+            this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
             // 
             // checkedListBox1
             // 
@@ -167,18 +185,137 @@ namespace AfterEffects
             "קרדיט אדיבות",
             "קרדיט שם ",
             "פלאח "});
-            this.checkedListBox1.Location = new System.Drawing.Point(360, 118);
+            this.checkedListBox1.Location = new System.Drawing.Point(447, 174);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(120, 94);
             this.checkedListBox1.TabIndex = 45;
+            // 
+            // SubjectBackgroundPBox
+            // 
+            this.SubjectBackgroundPBox.BackColor = System.Drawing.Color.Teal;
+            this.SubjectBackgroundPBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.SubjectBackgroundPBox.Location = new System.Drawing.Point(418, 82);
+            this.SubjectBackgroundPBox.Name = "SubjectBackgroundPBox";
+            this.SubjectBackgroundPBox.Size = new System.Drawing.Size(18, 18);
+            this.SubjectBackgroundPBox.TabIndex = 53;
+            this.SubjectBackgroundPBox.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(436, 84);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(131, 13);
+            this.label5.TabIndex = 52;
+            this.label5.Text = "Subject Background Color";
+            // 
+            // SubjectPBox
+            // 
+            this.SubjectPBox.BackColor = System.Drawing.Color.Black;
+            this.SubjectPBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.SubjectPBox.Location = new System.Drawing.Point(418, 58);
+            this.SubjectPBox.Name = "SubjectPBox";
+            this.SubjectPBox.Size = new System.Drawing.Size(18, 18);
+            this.SubjectPBox.TabIndex = 51;
+            this.SubjectPBox.TabStop = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(436, 60);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(70, 13);
+            this.label4.TabIndex = 50;
+            this.label4.Text = "Subject Color";
+            // 
+            // TitleBackgroundPBox
+            // 
+            this.TitleBackgroundPBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.TitleBackgroundPBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TitleBackgroundPBox.Location = new System.Drawing.Point(418, 34);
+            this.TitleBackgroundPBox.Name = "TitleBackgroundPBox";
+            this.TitleBackgroundPBox.Size = new System.Drawing.Size(18, 18);
+            this.TitleBackgroundPBox.TabIndex = 49;
+            this.TitleBackgroundPBox.TabStop = false;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(436, 36);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(115, 13);
+            this.label3.TabIndex = 48;
+            this.label3.Text = "Title Background Color";
+            // 
+            // TitlePBox
+            // 
+            this.TitlePBox.BackColor = System.Drawing.Color.Gray;
+            this.TitlePBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TitlePBox.Location = new System.Drawing.Point(418, 10);
+            this.TitlePBox.Name = "TitlePBox";
+            this.TitlePBox.Size = new System.Drawing.Size(18, 18);
+            this.TitlePBox.TabIndex = 47;
+            this.TitlePBox.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(436, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(54, 13);
+            this.label2.TabIndex = 46;
+            this.label2.Text = "Title Color";
+            // 
+            // colorDialog1
+            // 
+            this.colorDialog1.AnyColor = true;
+            // 
+            // lbl_Status
+            // 
+            this.lbl_Status.AutoSize = true;
+            this.lbl_Status.Location = new System.Drawing.Point(94, 208);
+            this.lbl_Status.Name = "lbl_Status";
+            this.lbl_Status.Size = new System.Drawing.Size(37, 13);
+            this.lbl_Status.TabIndex = 55;
+            this.lbl_Status.Text = "Status";
+            // 
+            // lbl_1
+            // 
+            this.lbl_1.AutoSize = true;
+            this.lbl_1.Location = new System.Drawing.Point(37, 208);
+            this.lbl_1.Name = "lbl_1";
+            this.lbl_1.Size = new System.Drawing.Size(40, 13);
+            this.lbl_1.TabIndex = 54;
+            this.lbl_1.Text = "Status:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(293, 69);
+            this.label6.Name = "label6";
+            this.label6.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label6.Size = new System.Drawing.Size(39, 13);
+            this.label6.TabIndex = 56;
+            this.label6.Text = "פלאח:";
             // 
             // Form_Ofira
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(536, 252);
+            this.ClientSize = new System.Drawing.Size(581, 335);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.lbl_Status);
+            this.Controls.Add(this.lbl_1);
+            this.Controls.Add(this.SubjectBackgroundPBox);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.SubjectPBox);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.TitleBackgroundPBox);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.TitlePBox);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.checkedListBox1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnRun);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.chk_Hebrew);
             this.Controls.Add(this.FormatComboBox);
@@ -193,6 +330,10 @@ namespace AfterEffects
             this.Controls.Add(this.txt_Title);
             this.Name = "Form_Ofira";
             this.Text = "Form_Ofira";
+            ((System.ComponentModel.ISupportInitialize)(this.SubjectBackgroundPBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SubjectPBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TitleBackgroundPBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TitlePBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -212,7 +353,19 @@ namespace AfterEffects
         private System.Windows.Forms.TextBox txt_Subject;
         private System.Windows.Forms.Label lbl_Title;
         private System.Windows.Forms.TextBox txt_Title;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.PictureBox SubjectBackgroundPBox;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.PictureBox SubjectPBox;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PictureBox TitleBackgroundPBox;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox TitlePBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Label lbl_Status;
+        private System.Windows.Forms.Label lbl_1;
+        private System.Windows.Forms.Label label6;
     }
 }
