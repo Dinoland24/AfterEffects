@@ -23,10 +23,19 @@ namespace AfterEffects
     {
         // START
         #region Initilize Parameters
-        const string WorkingFolder = @"D:\Projects\Automation\";
+        //const string WorkingFolder = @"D:\Projects\Sport\";
+        //const string _ProjectFileName = "STN_GFX_3";
+        const string WorkingFolder = @"D:\Projects\Narrative\";
+        const string _ProjectFileName = "Narrative_GFX";
+
         readonly string outputJsonFile = $@"{WorkingFolder}\Colors.json";
-        readonly string _ProjectLocation = $@"{WorkingFolder}\AutoV1.aep";
-        string _CompName = "Render_ENG"; // Render_HEB
+        //readonly string outputJsonSettingsFile = $@"{WorkingFolder}Settings.json";
+        readonly string outputJsonSettingsFile = $@"C:\Users\guyle\source\repos\AfterEffects\Settings.json";
+        string _ProjectLocation = $@"{WorkingFolder}\{_ProjectFileName}.aep";
+        string _CompName = "TEST_HEB"; // Render_HEB 
+        //string _CompNameEng = "TEST_ENG"; // Render_HEB 
+        //string _CompNameStatic = "TEST_HEB_Static"; // Render_HEB 
+
         int jobId = 1;
         #endregion
 
@@ -34,15 +43,18 @@ namespace AfterEffects
         static readonly string[] Scopes = { SheetsService.Scope.Spreadsheets };
         static readonly string ApplicationName = "Application Name";
         static readonly string SpreadSheetId = "1a6wnlb70JjpRli9WzUOoSVTndqusqwFHqTb9Qvx5n1M";
+        //static readonly string SpreadSheetId = "1-1_4eDuB0jR9iMQ9tn-F0R_roYVi4Htv7U74PwB5jsQ";
         static readonly string Sheet = "Titles";
+        //static readonly string Sheet = "new";
         static SheetsService service;
         #endregion
 
         #region AE_Render
         static readonly string x0 = "\"" + "Program Files" + "\"";
-        static readonly string x1 = "\"" + "Adobe After Effects 2020" + "\"";
+        static readonly string x1 = "\"" + "Adobe After Effects 2023" + "\"";
         static readonly string x2 = "\"" + "Support Files" + "\"";
-        readonly string AErender = $@"D:\WindowsInstallations\Adobe\{x1}\{x2}\aerender.exe";
+        readonly string AErender2 = $@"D:\WindowsInstallations\Adobe\{x1}\{x2}\aerender.exe";
+        readonly string AErender = $@"C:\{x0}\Adobe\{x1}\{x2}\aerender.exe";
         #endregion
 
         #region Color Pick
@@ -96,12 +108,8 @@ namespace AfterEffects
             InitializeComponent();
             FormatComboBox.SelectedIndex = 0;
 
-            txt_Title.Text = "Companies עברית destructions";
-            txt_Subject.Text = "Why is there so many elctronic stuff?";
-            txt_Filename.Text = "Test_File";
-
             GoogleCredential credential;
-            using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read))
+            using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.ReadWrite))
             {
                 credential = GoogleCredential.FromStream(stream).CreateScoped(Scopes);
             }
@@ -112,10 +120,14 @@ namespace AfterEffects
                 ApplicationName = ApplicationName
             }); ;
 
+
         }
         private void Form2_Load(object sender, EventArgs e)
         {
-            AddToQueue();
+            //txtTestOutput.Text = HebrewStringModify_New(txtTestInput.Text);
+
+
+            //AddToQueue();
         }
         private async void button1_Click(object sender, EventArgs e)
         {
@@ -129,104 +141,44 @@ namespace AfterEffects
         {
             await RenderAll();
         }
-        private void button4_Click(object sender, EventArgs e)
+        private void btn_Ofira_Click(object sender, EventArgs e)
         {
-            var titleText = HebrewStringModify_New(txt_Title.Text);
+            var titleText = Reverse(HebrewStringModify_New(txt_Title.Text));
+            var titleText2 = Reverse(HebrewStringModify_New(txt_Subject.Text));
+
             var format = FormatComboBox.Text;
             var filename = txt_Filename.Text;
             var outputFolder = txt_Output.Text;
             var hebrew = chk_Hebrew.Checked;
 
-            RenderFiles(titleText, filename, format, outputFolder);
+            RenderFiles(titleText, titleText2, filename, format, outputFolder);
         }
+
         private void button5_Click(object sender, EventArgs e)
         {
-            int size = -1;
+            //int size = -1;
             DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
             if (result == DialogResult.OK)
             {
-                string file = openFileDialog1.FileName;
-                try
-                {
-                    string text = File.ReadAllText(file);
-                    size = text.Length;
-                }
-                catch (IOException)
-                {
-                }
-                txtTestInput.Text = openFileDialog1.FileName;
+                string filePath = openFileDialog1.FileName;
+                _ProjectLocation = filePath;
+                txt_FilePath.Text = openFileDialog1.FileName;
+
             }
-            MessageBox.Show(size.ToString()); // <-- Shows file size in debugging mode.
-            MessageBox.Show(result.ToString()); // <-- For debugging use.
+            //MessageBox.Show(size.ToString()); // <-- Shows file size in debugging mode.
+            //MessageBox.Show(size.ToString()); // <-- Shows file size in debugging mode.
+            //MessageBox.Show(result.ToString()); // <-- For debugging use.
         }
+        private void btn_Clear_Click(object sender, EventArgs e)
+        {
+            ClearForm();
+        }
+
         private void button6_Click(object sender, EventArgs e)
         {
-            HebrewStringModify_New(txtTestInput.Text);
-            return;
-            List<string> FullText = new List<string>();
-            var txtInput = txtTestInput.Text;
-            var line = txtInput.Split(' ');
-            foreach (string word in line)
-            {
-                string tempWord = string.Empty;
-
-                if (HebrewDetection(word))
-                {
-                    tempWord = Reverse(word);
-
-                    //txtTestOutput.Text = "Hebrew Found";
-                }
-                else
-                {
-                    tempWord = word;
-                }
-
-                if (tempWord.Contains(","))
-                {
-                    string x = tempWord.Replace(",", "");
-                    string y = "," + x;
-                    tempWord = y;
-                }
-                FullText.Add(tempWord);
-            }
-            FullText.Reverse();
-            string combindedString = string.Join(" ", FullText.ToArray());
-            //combindedString = Reverse(combindedString);
-            txtTestOutput.Text = combindedString;
-
-            UpdateJsonFile();
-            UpdateTextFile("file", combindedString, "tempSubject");
-
-            return;
-
-
-
-
-
-            string tempString = string.Empty;
-            var _title = txt_Title.Text;
-            if (HebrewDetection(_title))
-            {
-                tempString = HebrewStringModify(_title);
-                tempString = Reverse(_title);
-                //return;
-
-            }
-            else
-            {
-                tempString = _title;
-            }
-            //var x = HebrewStringModify(txt_Title.Text);
-
-            this.BeginInvoke((Action)delegate ()
-            {
-                txtTestInput.Text = tempString;
-            });
-
-
-            //UpdateJsonFile();
-            //UpdateTextFile("file", tempString, "tempSubject");
-
+            var zz = HebrewStringModify_New(txtTestInput.Text);
+            //UpdateJsonSettingsFile("title", zz, true, true);
+            txtTestOutput.Text = zz;
         }
 
         #region Add to Queue
@@ -265,19 +217,22 @@ namespace AfterEffects
                 SubjectText = txt_Subject.Text,
                 Format = FormatComboBox.Text,
                 Hebrew = chk_Hebrew.Checked,
+                Magenta = chk_Magenta.Checked,
                 colorObject = colorObject1
             };
             JobsBindingSource.Add(job);
             jobId += 1;
 
         }
-        private void AddToQueue(string titleText, string subjectText, string format, string filename, string outputFolder, bool hebrew)
+        private void AddToQueue(string titleText, string subjectText, string format, string filename, string outputFolder, bool hebrew, bool magenta, bool animated)
         {
-            if ((txt_Title.Text.Length <= 0) || (txt_Subject.Text.Length <= 0) || (txt_Filename.Text.Length <= 0) || (txt_Output.Text.Length <= 0))
-            {
-                return;
-            }
+            //if ((txt_Title.Text.Length <= 0) || (txt_Subject.Text.Length <= 0) || (txt_Filename.Text.Length <= 0) || (txt_Output.Text.Length <= 0))
+            //{
+            //    return;
+            //}
 
+
+            //not updating in after effects yet
             ColorObject colorObject1 = new ColorObject
             {
                 Title_R = TitlePBox.BackColor.R,
@@ -306,8 +261,11 @@ namespace AfterEffects
                 SubjectText = subjectText,
                 Format = format,
                 Hebrew = hebrew,
-                colorObject = colorObject1
+                Magenta = magenta,
+                colorObject = colorObject1,
+                Animated = animated
             };
+
             JobsBindingSource.Add(job);
             jobId += 1;
 
@@ -340,6 +298,21 @@ namespace AfterEffects
 
             File.WriteAllText(outputJsonFile, x);
         }
+        private void UpdateJsonSettingsFile(string _title, string _subject, bool _hebrew, bool _magenta, bool _animated)
+        {
+            Job2 jobSetting = new Job2
+            {
+                TitleText = _title,
+                SubjectText = _subject,
+                Hebrew = _hebrew,
+                Magenta = _magenta,
+                Animated = _animated
+            };
+
+            string information = JsonConvert.SerializeObject(jobSetting, Formatting.Indented);
+
+            File.WriteAllText(outputJsonSettingsFile, information);
+        }
         private void UpdateTextFile(string filename, string _title, string _subject)
         {
             // Create a string array that consists of three lines.
@@ -350,6 +323,7 @@ namespace AfterEffects
             //File.WriteAllLines($@"C:\Users\Avid5\Desktop\Auto_GFX\{filename}.txt", lines);
             Thread.Sleep(1500);
         }
+
         #endregion
 
         #region Hebrew Manipulation
@@ -366,6 +340,7 @@ namespace AfterEffects
             List<string> FullText = new List<string>();
             var txtInput = s;
             var line = txtInput.Split(' ');
+
             foreach (string word in line)
             {
                 string tempWord = string.Empty;
@@ -394,36 +369,96 @@ namespace AfterEffects
                     var MixString = word.Split('-');
 
                     List<string> DevidedString = new List<string>();
-                    foreach (string inner_word in MixString)
+
+                    bool CheckNumbers = false;
+                    int CheckNum = 0;
+                    foreach (var inner_word2 in MixString)
                     {
-                        try
+                        bool successfullyParsed = int.TryParse(inner_word2, out CheckNum);
+                        if (successfullyParsed)
                         {
-                            var x = Convert.ToDouble(inner_word);
-                            DevidedString.Add(inner_word);
-                        }
-                        catch (Exception)
-                        {
-                            DevidedString.Reverse();
-                            DevidedString.Add(inner_word);
+                            CheckNumbers = true;
                         }
                     }
 
-                    DevidedString.Reverse();
-                    string combindedString2 = string.Join("-", DevidedString.ToArray());
-                    tempWord = combindedString2;
-                }
+                    if (CheckNumbers)
+                    {
+                        foreach (string inner_word in MixString)
+                        {
+                            int ignoreMe;
 
+                            bool successfullyParsed = int.TryParse(inner_word, out ignoreMe);
+                            if (successfullyParsed)
+                            {
+                                //var x = Convert.ToDouble(inner_word);
+                                DevidedString.Add(inner_word);
+                            }
+                            else
+                            {
+                                DevidedString.Reverse();
+                                DevidedString.Add(inner_word);
+                            }
+
+                        }
+                        DevidedString.Reverse();
+                        string combindedString2 = string.Join("-", DevidedString.ToArray());
+                        tempWord = combindedString2;
+                    }
+                    else
+                    {
+
+                    }
+                }
 
                 if (tempWord.Contains(":"))
                 {
                     // Split and reverse number if double????
                 }
 
+                if (tempWord.Contains("(") && tempWord.Contains(")"))
+                {
+                    tempWord = tempWord.Substring(1, tempWord.Length - 2);
+                    tempWord = "(" + tempWord + ")";
+                }
+                else if (tempWord.Contains("("))
+                {
+                    tempWord = tempWord.Replace("(", "");
+                    tempWord = tempWord + ")";
+                }
+                else if (tempWord.Contains(")"))
+                {
+                    tempWord = tempWord.Replace(")", "");
+                    tempWord = "(" + tempWord;
+                }
+
+
+
                 FullText.Add(tempWord);
             }
             FullText.Reverse();
+
+            List<string> englishWords = new List<string>();
+            List<int> wordIndex = new List<int>();
+
+            foreach (var item in FullText)
+            {
+                if (!HebrewDetection(item))
+                {
+                    wordIndex.Add(FullText.IndexOf(item));
+                    englishWords.Add(item);
+                }
+            }
+            englishWords.Reverse();
+
+            int tempIndex = 0;
+            foreach (var item in englishWords)
+            {
+                FullText[wordIndex[tempIndex]] = item;
+                tempIndex += 1;
+            }
+
             string combindedString = string.Join(" ", FullText.ToArray());
-            //combindedString = Reverse(combindedString);
+            combindedString = Reverse(combindedString);
             return combindedString;
         }
 
@@ -524,11 +559,11 @@ namespace AfterEffects
             txt_Filename.Clear();
             chk_Hebrew.Checked = false;
 
+            JobsBindingSource.Clear();
             txt_Title.Focus();
         }
 
-
-
+        //bool renderInProcess = false;
         private async void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Delete")
@@ -536,39 +571,25 @@ namespace AfterEffects
                 if (MessageBox.Show("Are you sure you want to delete this?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     JobsBindingSource.RemoveCurrent();
-
                 }
             }
             else if (dataGridView1.Columns[e.ColumnIndex].Name == "Run")
             {
+                //if (renderInProcess) return;
+                //MessageBox.Show("Starting");
                 if (MessageBox.Show("Are you sure you want to RUN this?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    var id = dataGridView1.Rows[e.RowIndex].Cells[0].Value;
-                    var titleText = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-                    var subjectText = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
-                    var format = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
-                    var filename = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
-                    var outputFolder = dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString();
-                    var hebrew = Convert.ToBoolean(dataGridView1.Rows[e.RowIndex].Cells[6].Value);
-
-                    lbl_Status.Text = "In Progress...";
-                    dataGridView1.Rows[e.RowIndex].Cells[9].Value = "In Progress...";
-                    await Task.Run(() =>
-                    {
-
-                        RenderFiles(titleText, subjectText, filename, format, outputFolder, hebrew);
-                    });
-
-                    dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.LightGray;
-                    dataGridView1.Rows[e.RowIndex].Cells[9].Value = "Finished";
-                    JobsBindingSource.RemoveCurrent();
+                    //renderInProcess = true;
+                    var rowIndex = e.RowIndex;
+                    await RenderFirstEntry(rowIndex);
+                    //renderInProcess = false;
                 }
             }
         }
 
         void ReadEntries()
         {
-            var range = $"{Sheet}!A2:F10";
+            var range = $"{Sheet}!A2:H40";
             var request = service.Spreadsheets.Values.Get(SpreadSheetId, range);
 
             var response = request.Execute();
@@ -579,20 +600,46 @@ namespace AfterEffects
             {
                 foreach (var row in values)
                 {
-                    string title = row[0].ToString();
-                    string subject = row[1].ToString();
-                    string format = row[2].ToString();
-                    string filename = row[3].ToString();
-                    string outputFolder = row[4].ToString();
+                    try
+                    {
+                        string title = row[0].ToString().Trim();
+                    string subject = row[1].ToString().Trim();
+                    string format = row[2].ToString().Trim();
+                    string filename = row[3].ToString().Trim();
+                    string outputFolder = row[4].ToString().Trim();
                     bool hebrew = Convert.ToBoolean(row[5]);
+                    bool magenta = Convert.ToBoolean(row[6]);
+                    bool animated = Convert.ToBoolean(row[7]);
 
-                    AddToQueue(title, subject, format, filename, outputFolder, hebrew);
+                    AddToQueue(title, subject, format, filename, outputFolder, hebrew, magenta, animated);
+                    }
+                    catch (Exception)
+                    {
+                        break;
+                        
+                    }
+                    
                 }
             }
             else
             {
                 MessageBox.Show("No Data was found");
             }
+
+        }
+
+        static void UpdateEntry(string cell)
+        {
+            var range = $"{Sheet}!{cell}";
+            var valueRange = new ValueRange();
+
+            var objectList = new List<object>() { "Updated" };
+            valueRange.Values = new List<IList<object>> { objectList };
+
+            var updateRequest = service.Spreadsheets.Values.Update(valueRange, SpreadSheetId, range);
+            updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
+
+            var updateResponse = updateRequest.Execute();
 
         }
 
@@ -610,7 +657,7 @@ namespace AfterEffects
         }
         private async Task RenderFirstEntry(int _index)
         {
-            var status = dataGridView1.Rows[_index].Cells[9].Value;
+            var status = dataGridView1.Rows[_index].Cells[11].Value;
 
             if (status != null)
                 if (status.ToString() == "Finished") { return; }
@@ -620,69 +667,113 @@ namespace AfterEffects
             var subjectText = dataGridView1.Rows[_index].Cells[2].Value.ToString();
             var format = dataGridView1.Rows[_index].Cells[3].Value.ToString();
             var filename = dataGridView1.Rows[_index].Cells[4].Value.ToString();
-            var outputFolder = dataGridView1.Rows[_index].Cells[5].Value.ToString();
+            var outputFolder = dataGridView1.Rows[_index].Cells[5].Value.ToString() + "\\";
             var hebrew = Convert.ToBoolean(dataGridView1.Rows[_index].Cells[6].Value);
+            var magenta = Convert.ToBoolean(dataGridView1.Rows[_index].Cells[7].Value);
+            var animated = Convert.ToBoolean(dataGridView1.Rows[_index].Cells[8].Value);
 
             dataGridView1.Rows[_index].Selected = false;
 
-            dataGridView1.Rows[_index].Cells[9].Value = "In Progress...";
+            dataGridView1.Rows[_index].Cells[11].Value = "In Progress...";
             dataGridView1.Rows[_index].ReadOnly = true;
-
-            titleText = HebrewStringModify_New(titleText);
-            subjectText = HebrewStringModify_New(subjectText);
 
             await Task.Run(() =>
             {
-                RenderFiles(titleText, subjectText, filename, format, outputFolder, hebrew);
-
+                RenderFiles(titleText, subjectText, filename, format, outputFolder, hebrew, magenta, animated);
             });
 
             dataGridView1.Rows[_index].DefaultCellStyle.ForeColor = Color.LightGray;
-            dataGridView1.Rows[_index].Cells[9].Value = "Finished";
+            dataGridView1.Rows[_index].Cells[11].Value = "Finished";
         }
 
-        private void RenderFiles(string _title, string _subject, string _fileName, string _format, string _outpFolder, bool hebrew)
+        private void RenderFiles(string _title, string _subject, string _fileName, string _format, string _outpFolder, bool hebrew, bool magenta, bool animated)
         {
             if (hebrew)
-                _CompName = "Render_HEB";
-            else
-                _CompName = "Render_ENG";
+            {
+                _title = (HebrewStringModify_New(_title));
+                _subject = (HebrewStringModify_New(_subject));
+            }
 
-            UpdateJsonFile();
-            UpdateTextFile("file", _title, _subject);
+            //_CompName = txt_CompName.Text;
 
+            UpdateJsonSettingsFile(_title, _subject, hebrew, magenta, animated);
+
+            Thread.Sleep(1500);
             string outputFolder = @_outpFolder;
             string outFilename = _fileName + "_[#####].png";
 
-            Directory.CreateDirectory(outputFolder + _fileName);
-            outputFolder = outputFolder + _fileName + "\\";
+            if ((_format == "PNG Sequence") && (animated))
+            {
+                Directory.CreateDirectory(outputFolder + _fileName);
+                outputFolder = outputFolder + _fileName + "\\";
+            }
 
             string Command;
 
-            #region need fix because of sourceTimeAtSource
-            //if (chk_Animation.Checked)
-            //{
-            //    Command = " -project " + _ProjectLocation + " -comp " + "\"" + _CompName + "\"" + " -s 1 -e 50 -output " + outputFolder + outFilename;
-            //}
-            //else
-            //{
-            //    //outFilename = _fileName + ".png";
-            //    Command = " -project " + _ProjectLocation + " -comp " + "\"" + _CompName + "\"" + " -s 50 -e 50 -output " + outputFolder + outFilename;
-            //}
+            _ProjectLocation = txt_FilePath.Text;
+
+            #region Check output format
+            if (!animated)
+            {
+                _CompName = "Flach_static";
+                _format = "PNG Sequence";
+
+                Command = $" -project {_ProjectLocation} -comp \"{_CompName}\" -RStemplate \"Best Settings\" -OMtemplate \"{_format}\" -s 1 -e 1 -output \"{outputFolder}{outFilename}\"";
+            }
+            else
+            {
+                _CompName = "Flach_animation";
+
+                Command = $" -project {_ProjectLocation} -comp \"{_CompName}\" -RStemplate \"Best Settings\" -OMtemplate \"{_format}\" -s 1 -e 240 -output \"{outputFolder}{outFilename}\"";
+            }
             #endregion
 
-            Command = $" -project {_ProjectLocation} -comp \"{_CompName}\" -RStemplate \"Best Settings\" -OMtemplate \"{_format}\" -s 1 -e 50 -output {outputFolder}{outFilename}";
-
-
-            ProcessStartInfo ps = new ProcessStartInfo
+            #region Show Progress
+            ProcessStartInfo ps = new ProcessStartInfo();
+            if (chk_ShowProgress.Checked)
             {
-                FileName = "cmd.exe",
-                CreateNoWindow = true,
-                WindowStyle = ProcessWindowStyle.Hidden,
-                Arguments = @"/C " + AErender + Command,
-                Verb = "runas"
-            };
+                ps = new ProcessStartInfo
+                {
+                    FileName = "cmd.exe",
+                    CreateNoWindow = false,
+                    WindowStyle = ProcessWindowStyle.Normal,
+                    Arguments = @"/C " + AErender + Command,
+                    Verb = "runas"
+                };
+            }
+            else
+            {
+                ps = new ProcessStartInfo
+                {
+                    FileName = "cmd.exe",
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    Arguments = @"/C " + AErender + Command,
+                    Verb = "runas"
+                };
+            }
+            #endregion
+            
+            
+            //return;
+            
+            
             Process.Start(ps).WaitForExit();
+
+            string old_fileName, new_fileName;
+            if (!animated)
+            {
+                outFilename = _fileName + "_00001.png";
+                old_fileName = $"{outputFolder}{outFilename}";
+
+                outFilename = _fileName + ".png";
+                new_fileName = $"{outputFolder}{outFilename}";
+
+                if (File.Exists(new_fileName))
+                    File.Delete(new_fileName);
+
+                File.Move(old_fileName, new_fileName);
+            }
 
             this.BeginInvoke((Action)delegate ()
             {
@@ -690,12 +781,12 @@ namespace AfterEffects
             });
         }
 
-        private void RenderFiles(string _title, string _fileName, string _format, string _outpFolder)
+        private void RenderFiles(string _title, string _subject, string _fileName, string _format, string _outpFolder)
         {
-            _CompName = "FlachTemplate";
+            _CompName = "TEST_HEB";
 
             //UpdateJsonFile();
-            UpdateTextFile("ofira", _title, "");
+            UpdateTextFile("TEXT", _title, _subject);
 
             string outputFolder = @_outpFolder;
             string outFilename = _fileName + "_[#####].png";
@@ -717,17 +808,19 @@ namespace AfterEffects
             }
             #endregion
 
-            Command = $" -project {_ProjectLocation} -comp \"{_CompName}\" -RStemplate \"Best Settings\" -OMtemplate \"{_format}\" -s 1 -e 50 -output {outputFolder}{outFilename}";
-
+            Command = $" -project {_ProjectLocation} -comp \"{_CompName}\" -RStemplate \"Best Settings\" -OMtemplate \"{_format}\" -s 1 -e 75 -output {outputFolder}{outFilename}";
 
             ProcessStartInfo ps = new ProcessStartInfo
             {
                 FileName = "cmd.exe",
-                CreateNoWindow = true,
-                WindowStyle = ProcessWindowStyle.Hidden,
+                CreateNoWindow = false,
+                WindowStyle = ProcessWindowStyle.Normal,
                 Arguments = @"/C " + AErender + Command,
                 Verb = "runas"
             };
+
+            MessageBox.Show("SENDING");
+
             Process.Start(ps).WaitForExit();
 
             this.BeginInvoke((Action)delegate ()
@@ -736,6 +829,12 @@ namespace AfterEffects
             });
         }
         #endregion
+
+        private void btn_Test_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(AErender);
+            //UpdateEntry("H8:H10");
+        }
 
     }
 }

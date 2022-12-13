@@ -60,18 +60,29 @@ namespace AfterEffects
             this.TitlePBox = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Magenta = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Animated = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Run = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.button3 = new System.Windows.Forms.Button();
             this.lblTest = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btn_Ofira = new System.Windows.Forms.Button();
             this.txtTestInput = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button6 = new System.Windows.Forms.Button();
             this.txtTestOutput = new System.Windows.Forms.TextBox();
+            this.chk_Magenta = new System.Windows.Forms.CheckBox();
+            this.chk_ShowProgress = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btn_Test = new System.Windows.Forms.Button();
+            this.txt_FilePath = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txt_CompName = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.btn_Clear = new System.Windows.Forms.Button();
             this.jobIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.titleTextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subjectTextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -86,13 +97,14 @@ namespace AfterEffects
             ((System.ComponentModel.ISupportInitialize)(this.TitleBackgroundPBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TitlePBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.JobsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // lbl_Status
             // 
             this.lbl_Status.AutoSize = true;
-            this.lbl_Status.Location = new System.Drawing.Point(169, 200);
+            this.lbl_Status.Location = new System.Drawing.Point(103, 192);
             this.lbl_Status.Name = "lbl_Status";
             this.lbl_Status.Size = new System.Drawing.Size(40, 13);
             this.lbl_Status.TabIndex = 16;
@@ -101,7 +113,7 @@ namespace AfterEffects
             // lbl_1
             // 
             this.lbl_1.AutoSize = true;
-            this.lbl_1.Location = new System.Drawing.Point(112, 200);
+            this.lbl_1.Location = new System.Drawing.Point(45, 192);
             this.lbl_1.Name = "lbl_1";
             this.lbl_1.Size = new System.Drawing.Size(40, 13);
             this.lbl_1.TabIndex = 15;
@@ -155,7 +167,7 @@ namespace AfterEffects
             "Quicktime (Animation)"});
             this.FormatComboBox.Location = new System.Drawing.Point(106, 158);
             this.FormatComboBox.Name = "FormatComboBox";
-            this.FormatComboBox.Size = new System.Drawing.Size(155, 21);
+            this.FormatComboBox.Size = new System.Drawing.Size(193, 21);
             this.FormatComboBox.TabIndex = 29;
             // 
             // lbl_Output
@@ -173,7 +185,7 @@ namespace AfterEffects
             this.txt_Output.Name = "txt_Output";
             this.txt_Output.Size = new System.Drawing.Size(193, 20);
             this.txt_Output.TabIndex = 27;
-            this.txt_Output.Text = "D:\\1\\";
+            this.txt_Output.Text = "D:\\Projects\\Sport\\RENDERS\\";
             // 
             // chk_Animation
             // 
@@ -239,12 +251,13 @@ namespace AfterEffects
             this.groupBox1.Controls.Add(this.lbl_TitleSample);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Location = new System.Drawing.Point(390, 148);
+            this.groupBox1.Location = new System.Drawing.Point(1012, 78);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(224, 73);
             this.groupBox1.TabIndex = 42;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Text Sample:";
+            this.groupBox1.Visible = false;
             // 
             // lbl_SubjectSample
             // 
@@ -375,18 +388,34 @@ namespace AfterEffects
             this.filenameDataGridViewTextBoxColumn,
             this.outputFolderDataGridViewTextBoxColumn,
             this.hebrewDataGridViewCheckBoxColumn,
+            this.Magenta,
+            this.Animated,
             this.Delete,
             this.Run,
             this.Status});
             this.dataGridView1.DataSource = this.JobsBindingSource;
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 257);
+            this.dataGridView1.Location = new System.Drawing.Point(17, 213);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(863, 150);
+            this.dataGridView1.Size = new System.Drawing.Size(1105, 292);
             this.dataGridView1.TabIndex = 43;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // Magenta
+            // 
+            this.Magenta.DataPropertyName = "Magenta";
+            this.Magenta.HeaderText = "Magenta";
+            this.Magenta.Name = "Magenta";
+            this.Magenta.Width = 55;
+            // 
+            // Animated
+            // 
+            this.Animated.DataPropertyName = "Animated";
+            this.Animated.HeaderText = "Animated";
+            this.Animated.Name = "Animated";
+            this.Animated.Width = 60;
             // 
             // Delete
             // 
@@ -394,7 +423,7 @@ namespace AfterEffects
             this.Delete.Name = "Delete";
             this.Delete.Text = "Delete";
             this.Delete.UseColumnTextForButtonValue = true;
-            this.Delete.Width = 50;
+            this.Delete.Width = 46;
             // 
             // Run
             // 
@@ -402,7 +431,7 @@ namespace AfterEffects
             this.Run.Name = "Run";
             this.Run.Text = "Run";
             this.Run.UseColumnTextForButtonValue = true;
-            this.Run.Width = 50;
+            this.Run.Width = 40;
             // 
             // Status
             // 
@@ -427,34 +456,35 @@ namespace AfterEffects
             // 
             this.lblTest.AutoSize = true;
             this.lblTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTest.Location = new System.Drawing.Point(26, 207);
+            this.lblTest.Location = new System.Drawing.Point(726, 28);
             this.lblTest.Name = "lblTest";
             this.lblTest.Size = new System.Drawing.Size(76, 25);
             this.lblTest.TabIndex = 45;
             this.lblTest.Text = "label8";
+            this.lblTest.Visible = false;
             // 
-            // button4
+            // btn_Ofira
             // 
-            this.button4.Location = new System.Drawing.Point(314, 12);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 46;
-            this.button4.Text = "Ofira";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.btn_Ofira.Location = new System.Drawing.Point(407, 12);
+            this.btn_Ofira.Name = "btn_Ofira";
+            this.btn_Ofira.Size = new System.Drawing.Size(75, 23);
+            this.btn_Ofira.TabIndex = 46;
+            this.btn_Ofira.Text = "Ofira";
+            this.btn_Ofira.UseVisualStyleBackColor = true;
+            this.btn_Ofira.Click += new System.EventHandler(this.btn_Ofira_Click);
             // 
             // txtTestInput
             // 
-            this.txtTestInput.Location = new System.Drawing.Point(626, 110);
+            this.txtTestInput.Location = new System.Drawing.Point(6, 41);
             this.txtTestInput.Name = "txtTestInput";
             this.txtTestInput.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.txtTestInput.Size = new System.Drawing.Size(232, 20);
+            this.txtTestInput.Size = new System.Drawing.Size(470, 20);
             this.txtTestInput.TabIndex = 47;
-            this.txtTestInput.Text = "האם יהיו בחירות ב-24.5 שוב?";
+            this.txtTestInput.Text = "בית ההשקעות Finance Capital (כלכלי)";
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(864, 103);
+            this.button5.Location = new System.Drawing.Point(930, 84);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(23, 23);
             this.button5.TabIndex = 48;
@@ -468,7 +498,7 @@ namespace AfterEffects
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(626, 82);
+            this.button6.Location = new System.Drawing.Point(401, 12);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 23);
             this.button6.TabIndex = 49;
@@ -478,11 +508,101 @@ namespace AfterEffects
             // 
             // txtTestOutput
             // 
-            this.txtTestOutput.Location = new System.Drawing.Point(626, 136);
+            this.txtTestOutput.Location = new System.Drawing.Point(6, 67);
             this.txtTestOutput.Name = "txtTestOutput";
             this.txtTestOutput.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.txtTestOutput.Size = new System.Drawing.Size(232, 20);
+            this.txtTestOutput.Size = new System.Drawing.Size(470, 20);
             this.txtTestOutput.TabIndex = 50;
+            // 
+            // chk_Magenta
+            // 
+            this.chk_Magenta.AutoSize = true;
+            this.chk_Magenta.Location = new System.Drawing.Point(305, 99);
+            this.chk_Magenta.Name = "chk_Magenta";
+            this.chk_Magenta.Size = new System.Drawing.Size(74, 17);
+            this.chk_Magenta.TabIndex = 51;
+            this.chk_Magenta.Text = "Magenta?";
+            this.chk_Magenta.UseVisualStyleBackColor = true;
+            // 
+            // chk_ShowProgress
+            // 
+            this.chk_ShowProgress.AutoSize = true;
+            this.chk_ShowProgress.Checked = true;
+            this.chk_ShowProgress.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_ShowProgress.Location = new System.Drawing.Point(305, 122);
+            this.chk_ShowProgress.Name = "chk_ShowProgress";
+            this.chk_ShowProgress.Size = new System.Drawing.Size(97, 17);
+            this.chk_ShowProgress.TabIndex = 52;
+            this.chk_ShowProgress.Text = "Show Progress";
+            this.chk_ShowProgress.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.button6);
+            this.groupBox2.Controls.Add(this.txtTestInput);
+            this.groupBox2.Controls.Add(this.txtTestOutput);
+            this.groupBox2.Location = new System.Drawing.Point(521, 192);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(490, 94);
+            this.groupBox2.TabIndex = 53;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "groupBox2";
+            this.groupBox2.Visible = false;
+            // 
+            // btn_Test
+            // 
+            this.btn_Test.Location = new System.Drawing.Point(488, 12);
+            this.btn_Test.Name = "btn_Test";
+            this.btn_Test.Size = new System.Drawing.Size(75, 23);
+            this.btn_Test.TabIndex = 54;
+            this.btn_Test.Text = "TEST";
+            this.btn_Test.UseVisualStyleBackColor = true;
+            this.btn_Test.Click += new System.EventHandler(this.btn_Test_Click);
+            // 
+            // txt_FilePath
+            // 
+            this.txt_FilePath.Enabled = false;
+            this.txt_FilePath.Location = new System.Drawing.Point(645, 86);
+            this.txt_FilePath.Name = "txt_FilePath";
+            this.txt_FilePath.Size = new System.Drawing.Size(280, 20);
+            this.txt_FilePath.TabIndex = 55;
+            this.txt_FilePath.Text = "D:\\Projects\\Igud_Tziburi\\IGUD_V5.aep";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(642, 67);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(62, 13);
+            this.label8.TabIndex = 56;
+            this.label8.Text = "Project File:";
+            // 
+            // txt_CompName
+            // 
+            this.txt_CompName.Location = new System.Drawing.Point(645, 127);
+            this.txt_CompName.Name = "txt_CompName";
+            this.txt_CompName.Size = new System.Drawing.Size(193, 20);
+            this.txt_CompName.TabIndex = 57;
+            this.txt_CompName.Text = "Flach_static";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(642, 112);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(68, 13);
+            this.label9.TabIndex = 57;
+            this.label9.Text = "Comp Name:";
+            // 
+            // btn_Clear
+            // 
+            this.btn_Clear.Location = new System.Drawing.Point(305, 12);
+            this.btn_Clear.Name = "btn_Clear";
+            this.btn_Clear.Size = new System.Drawing.Size(75, 23);
+            this.btn_Clear.TabIndex = 58;
+            this.btn_Clear.Text = "Clear";
+            this.btn_Clear.UseVisualStyleBackColor = true;
+            this.btn_Clear.Click += new System.EventHandler(this.btn_Clear_Click);
             // 
             // jobIDDataGridViewTextBoxColumn
             // 
@@ -493,6 +613,7 @@ namespace AfterEffects
             // 
             // titleTextDataGridViewTextBoxColumn
             // 
+            this.titleTextDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.titleTextDataGridViewTextBoxColumn.DataPropertyName = "TitleText";
             this.titleTextDataGridViewTextBoxColumn.HeaderText = "TitleText";
             this.titleTextDataGridViewTextBoxColumn.Name = "titleTextDataGridViewTextBoxColumn";
@@ -500,10 +621,10 @@ namespace AfterEffects
             // 
             // subjectTextDataGridViewTextBoxColumn
             // 
-            this.subjectTextDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.subjectTextDataGridViewTextBoxColumn.DataPropertyName = "SubjectText";
             this.subjectTextDataGridViewTextBoxColumn.HeaderText = "SubjectText";
             this.subjectTextDataGridViewTextBoxColumn.Name = "subjectTextDataGridViewTextBoxColumn";
+            this.subjectTextDataGridViewTextBoxColumn.Width = 250;
             // 
             // formatDataGridViewTextBoxColumn
             // 
@@ -528,7 +649,7 @@ namespace AfterEffects
             this.hebrewDataGridViewCheckBoxColumn.DataPropertyName = "Hebrew";
             this.hebrewDataGridViewCheckBoxColumn.HeaderText = "Hebrew";
             this.hebrewDataGridViewCheckBoxColumn.Name = "hebrewDataGridViewCheckBoxColumn";
-            this.hebrewDataGridViewCheckBoxColumn.Width = 60;
+            this.hebrewDataGridViewCheckBoxColumn.Width = 50;
             // 
             // JobsBindingSource
             // 
@@ -538,12 +659,17 @@ namespace AfterEffects
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(899, 450);
-            this.Controls.Add(this.txtTestOutput);
-            this.Controls.Add(this.button6);
+            this.ClientSize = new System.Drawing.Size(1133, 525);
+            this.Controls.Add(this.btn_Clear);
+            this.Controls.Add(this.txt_CompName);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.txt_FilePath);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.txtTestInput);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.btn_Test);
+            this.Controls.Add(this.chk_ShowProgress);
+            this.Controls.Add(this.chk_Magenta);
+            this.Controls.Add(this.btn_Ofira);
             this.Controls.Add(this.lblTest);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.dataGridView1);
@@ -572,6 +698,7 @@ namespace AfterEffects
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lbl_Status);
             this.Controls.Add(this.lbl_1);
+            this.Controls.Add(this.groupBox2);
             this.Name = "Form2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form2";
@@ -583,6 +710,8 @@ namespace AfterEffects
             ((System.ComponentModel.ISupportInitialize)(this.TitleBackgroundPBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TitlePBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.JobsBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -623,6 +752,16 @@ namespace AfterEffects
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.BindingSource JobsBindingSource;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label lblTest;
+        private System.Windows.Forms.Button btn_Ofira;
+        private System.Windows.Forms.TextBox txtTestInput;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TextBox txtTestOutput;
+        private System.Windows.Forms.CheckBox chk_Magenta;
+        private System.Windows.Forms.CheckBox chk_ShowProgress;
         private System.Windows.Forms.DataGridViewTextBoxColumn jobIDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn titleTextDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn subjectTextDataGridViewTextBoxColumn;
@@ -630,16 +769,17 @@ namespace AfterEffects
         private System.Windows.Forms.DataGridViewTextBoxColumn filenameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn outputFolderDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn hebrewDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Magenta;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Animated;
         private System.Windows.Forms.DataGridViewButtonColumn Delete;
         private System.Windows.Forms.DataGridViewButtonColumn Run;
         private System.Windows.Forms.DataGridViewTextBoxColumn Status;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Label lblTest;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox txtTestInput;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.TextBox txtTestOutput;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button btn_Test;
+        private System.Windows.Forms.TextBox txt_FilePath;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txt_CompName;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button btn_Clear;
     }
 }

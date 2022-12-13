@@ -44,8 +44,12 @@ namespace AfterEffects
             this.lbl_1 = new System.Windows.Forms.Label();
             this.lbl_Status = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.jobIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.filenameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.titleTextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Run = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.jobBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.button2 = new System.Windows.Forms.Button();
             this.chk_Hebrew = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -59,22 +63,17 @@ namespace AfterEffects
             this.SubjectBackgroundPBox = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.lbl_SubjectSample = new System.Windows.Forms.Label();
             this.lbl_TitleSample = new System.Windows.Forms.Label();
-            this.jobIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.filenameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.titleTextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.mainTextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.jobBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jobBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TitlePBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TitleBackgroundPBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SubjectPBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SubjectBackgroundPBox)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.jobBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -161,6 +160,7 @@ namespace AfterEffects
             this.txt_Output.Size = new System.Drawing.Size(193, 20);
             this.txt_Output.TabIndex = 10;
             this.txt_Output.Text = "D:\\1\\";
+            //this.txt_Output.TextChanged += new System.EventHandler(this.txt_Output_TextChanged);
             // 
             // comboBox1
             // 
@@ -200,7 +200,6 @@ namespace AfterEffects
             this.jobIDDataGridViewTextBoxColumn,
             this.filenameDataGridViewTextBoxColumn,
             this.titleTextDataGridViewTextBoxColumn,
-            this.mainTextDataGridViewTextBoxColumn,
             this.Delete,
             this.Run});
             this.dataGridView1.DataSource = this.jobBindingSource;
@@ -211,6 +210,25 @@ namespace AfterEffects
             this.dataGridView1.Size = new System.Drawing.Size(600, 150);
             this.dataGridView1.TabIndex = 15;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // jobIDDataGridViewTextBoxColumn
+            // 
+            this.jobIDDataGridViewTextBoxColumn.DataPropertyName = "JobID";
+            this.jobIDDataGridViewTextBoxColumn.HeaderText = "JobID";
+            this.jobIDDataGridViewTextBoxColumn.Name = "jobIDDataGridViewTextBoxColumn";
+            this.jobIDDataGridViewTextBoxColumn.Width = 50;
+            // 
+            // filenameDataGridViewTextBoxColumn
+            // 
+            this.filenameDataGridViewTextBoxColumn.DataPropertyName = "Filename";
+            this.filenameDataGridViewTextBoxColumn.HeaderText = "Filename";
+            this.filenameDataGridViewTextBoxColumn.Name = "filenameDataGridViewTextBoxColumn";
+            // 
+            // titleTextDataGridViewTextBoxColumn
+            // 
+            this.titleTextDataGridViewTextBoxColumn.DataPropertyName = "TitleText";
+            this.titleTextDataGridViewTextBoxColumn.HeaderText = "TitleText";
+            this.titleTextDataGridViewTextBoxColumn.Name = "titleTextDataGridViewTextBoxColumn";
             // 
             // Delete
             // 
@@ -225,6 +243,10 @@ namespace AfterEffects
             this.Run.Name = "Run";
             this.Run.Text = "Run";
             this.Run.UseColumnTextForButtonValue = true;
+            // 
+            // jobBindingSource
+            // 
+            this.jobBindingSource.DataSource = typeof(AfterEffects.Job);
             // 
             // button2
             // 
@@ -352,24 +374,6 @@ namespace AfterEffects
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Text Sample:";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(23, 25);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(30, 13);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Title:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(23, 47);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(46, 13);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "Subject:";
-            // 
             // lbl_SubjectSample
             // 
             this.lbl_SubjectSample.AutoSize = true;
@@ -388,34 +392,23 @@ namespace AfterEffects
             this.lbl_TitleSample.TabIndex = 2;
             this.lbl_TitleSample.Text = "Title Sample";
             // 
-            // jobIDDataGridViewTextBoxColumn
+            // label7
             // 
-            this.jobIDDataGridViewTextBoxColumn.DataPropertyName = "JobID";
-            this.jobIDDataGridViewTextBoxColumn.HeaderText = "JobID";
-            this.jobIDDataGridViewTextBoxColumn.Name = "jobIDDataGridViewTextBoxColumn";
-            this.jobIDDataGridViewTextBoxColumn.Width = 50;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(23, 47);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(46, 13);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Subject:";
             // 
-            // filenameDataGridViewTextBoxColumn
+            // label6
             // 
-            this.filenameDataGridViewTextBoxColumn.DataPropertyName = "Filename";
-            this.filenameDataGridViewTextBoxColumn.HeaderText = "Filename";
-            this.filenameDataGridViewTextBoxColumn.Name = "filenameDataGridViewTextBoxColumn";
-            // 
-            // titleTextDataGridViewTextBoxColumn
-            // 
-            this.titleTextDataGridViewTextBoxColumn.DataPropertyName = "TitleText";
-            this.titleTextDataGridViewTextBoxColumn.HeaderText = "TitleText";
-            this.titleTextDataGridViewTextBoxColumn.Name = "titleTextDataGridViewTextBoxColumn";
-            // 
-            // mainTextDataGridViewTextBoxColumn
-            // 
-            this.mainTextDataGridViewTextBoxColumn.DataPropertyName = "MainText";
-            this.mainTextDataGridViewTextBoxColumn.HeaderText = "MainText";
-            this.mainTextDataGridViewTextBoxColumn.Name = "mainTextDataGridViewTextBoxColumn";
-            // 
-            // jobBindingSource
-            // 
-            this.jobBindingSource.DataSource = typeof(AfterEffects.Job);
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(23, 25);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(30, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Title:";
             // 
             // Form1
             // 
@@ -452,13 +445,13 @@ namespace AfterEffects
             this.Text = "After Effects Render";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jobBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TitlePBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TitleBackgroundPBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SubjectPBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SubjectBackgroundPBox)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.jobBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
